@@ -3,10 +3,15 @@
 // Why: Help users get started with OSF quickly
 // Related: app/docs/getting-started/first-document/page.tsx
 
+'use client';
+
+import Navigation from '@/components/Navigation';
+
 export default function InstallationPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <Navigation />
+      <div className="container mx-auto px-4 py-12 max-w-4xl pt-24">
         <h1 className="text-5xl font-bold mb-4 border-b-4 border-white pb-4">Installation</h1>
         <p className="text-xl text-gray-300 mb-12">
           Get OmniScript Format up and running in minutes.

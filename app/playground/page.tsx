@@ -8,6 +8,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { parse } from 'omniscript-parser';
+import Navigation from '@/components/Navigation';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
 

@@ -5,12 +5,14 @@
 
 'use client';
 
+import Navigation from '@/components/Navigation';
 import { CheckCircle, Warning, RocketLaunch, GitBranch } from 'phosphor-react';
 
 export default function ReleasesPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+      <Navigation />
+      <div className="container mx-auto px-4 py-12 pt-24 max-w-4xl">
         <h1 className="text-5xl font-bold mb-6 border-b-4 border-white pb-4">
           Release Notes
         </h1>
