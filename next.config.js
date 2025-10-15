@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/omniscript.github.io',
+  basePath: '',
   trailingSlash: true,
 }
 
