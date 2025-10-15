@@ -15,11 +15,11 @@ importers:
         specifier: 14.2.18
         version: 14.2.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       omniscript-converters:
-        specifier: file:../omniscript-converters
-        version: file:../omniscript-converters(omniscript-parser@file:../omniscript-core/parser)(typescript@5.9.3)
+        specifier: ^1.0.0
+        version: 1.0.0(omniscript-parser@1.0.0)(typescript@5.9.3)
       omniscript-parser:
-        specifier: file:../omniscript-core/parser
-        version: file:../omniscript-core/parser
+        specifier: ^1.0.0
+        version: 1.0.0
       phosphor-react:
         specifier: ^1.4.1
         version: 1.4.1(react@18.3.1)
@@ -606,8 +606,8 @@ packages:
       bare-abort-controller:
         optional: true
 
-  bare-fs@4.4.10:
-    resolution: {integrity: sha512-arqVF+xX/rJHwrONZaSPhlzleT2gXwVs9rsAe1p1mIVwWZI2A76/raio+KwwxfWMO8oV9Wo90EaUkS2QwVmy4w==}
+  bare-fs@4.4.11:
+    resolution: {integrity: sha512-Bejmm9zRMvMTRoHS+2adgmXw1ANZnCNx+B5dgZpGwlP1E3x6Yuxea8RToddHUbWtVV0iUMWqsgZr8+jcgUI2SA==}
     engines: {bare: '>=1.16.0'}
     peerDependencies:
       bare-buffer: '*'
@@ -1717,14 +1717,14 @@ packages:
     resolution: {integrity: sha512-gXah6aZrcUxjWg2zR2MwouP2eHlCBzdV4pygudehaKXSGW4v2AsRQUK+lwwXhii6KFZcunEnmSUoYp5CXibxtA==}
     engines: {node: '>= 0.4'}
 
-  omniscript-converters@file:../omniscript-converters:
-    resolution: {directory: ../omniscript-converters, type: directory}
+  omniscript-converters@1.0.0:
+    resolution: {integrity: sha512-ydR74CCbqXResAf+It1XUNwCirj60NxSFwzgy7zmIc3D2kbQNsmwLqJlJ3agdZIW39rOdad6emU24XFUsQrXVQ==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       omniscript-parser: ^1.0.0
 
-  omniscript-parser@file:../omniscript-core/parser:
-    resolution: {directory: ../omniscript-core/parser, type: directory}
+  omniscript-parser@1.0.0:
+    resolution: {integrity: sha512-L25H30zSBqrIDyYt+uuAHYcJ53alsBcPuD/vpUHMmcZi0EDTErSVOtxuQOajkIABPsrgRaiMbxLxIUiO3+PAHg==}
     engines: {node: '>=18.0.0'}
 
   once@1.4.0:
@@ -2970,7 +2970,7 @@ snapshots:
 
   bare-events@2.8.0: {}
 
-  bare-fs@4.4.10:
+  bare-fs@4.4.11:
     dependencies:
       bare-events: 2.8.0
       bare-path: 3.0.0
@@ -4250,12 +4250,12 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.1.1
 
-  omniscript-converters@file:../omniscript-converters(omniscript-parser@file:../omniscript-core/parser)(typescript@5.9.3):
+  omniscript-converters@1.0.0(omniscript-parser@1.0.0)(typescript@5.9.3):
     dependencies:
       docx: 9.5.1
       exceljs: 4.4.0
       jszip: 3.10.1
-      omniscript-parser: file:../omniscript-core/parser
+      omniscript-parser: 1.0.0
       pptxgenjs: 4.0.1
       puppeteer: 24.25.0(typescript@5.9.3)
     transitivePeerDependencies:
@@ -4267,7 +4267,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  omniscript-parser@file:../omniscript-core/parser: {}
+  omniscript-parser@1.0.0: {}
 
   once@1.4.0:
     dependencies:
@@ -4845,7 +4845,7 @@ snapshots:
       pump: 3.0.3
       tar-stream: 3.1.7
     optionalDependencies:
-      bare-fs: 4.4.10
+      bare-fs: 4.4.11
       bare-path: 3.0.0
     transitivePeerDependencies:
       - bare-abort-controller
