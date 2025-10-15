@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Font Loading */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@layer base {
+  /* Root Variables */
+  :root {
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --font-sans: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Base Styles */
+  * {
+    @apply border-noir-black;
+  }
+
+  html {
+    @apply antialiased;
+    font-feature-settings: 'liga', 'calt', 'zero', 'ss01';
+  }
+
+  body {
+    @apply bg-noir-white text-noir-black font-mono;
+  }
+
+  /* Focus Styles */
+  :focus-visible {
+    @apply outline outline-[3px] outline-noir-black outline-offset-2;
+  }
+
+  :focus:not(:focus-visible) {
+    @apply outline-none;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-noir-black text-noir-white;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-400;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+  }
+}
+
+@layer components {
+  /* Container */
+  .container-noir {
+    @apply max-w-7xl mx-auto px-6 md:px-12;
+  }
+
+  .container-narrow {
+    @apply max-w-3xl mx-auto px-6 md:px-8;
+  }
+
+  /* Button Base */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply px-6 py-3;
+    @apply font-mono font-medium text-sm uppercase tracking-wide;
+    @apply border-2 border-noir-black;
+    @apply transition-all duration-200;
+    @apply active:scale-95;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-noir-black text-noir-white;
+    @apply hover:bg-noir-white hover:text-noir-black;
+  }
+
+  .btn-secondary {
+    @apply btn bg-transparent text-noir-black;
+    @apply hover:bg-noir-black hover:text-noir-white;
+  }
+
+  /* Card Base */
+  .card {
+    @apply bg-noir-white border-2 border-gray-200 p-8;
+    @apply transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card hover:border-noir-black hover:shadow-noir-md;
+  }
+
+  /* Terminal Window */
+  .terminal {
+    @apply bg-gray-900 border-2 border-gray-800 overflow-hidden;
+  }
+
+  .terminal-header {
+    @apply flex items-center gap-2 px-4 py-3;
+    @apply bg-gray-800 border-b-2 border-gray-700;
+  }
+
+  .terminal-dot {
+    @apply w-3 h-3 rounded-full bg-gray-600;
+  }
+
+  .terminal-content {
+    @apply p-6 font-mono text-sm text-gray-100;
+  }
+
+  /* Code Block */
+  .code-block {
+    @apply bg-gray-900 border-2 border-gray-800 overflow-hidden;
+  }
+
+  .code-block pre {
+    @apply p-6 overflow-x-auto;
+  }
+
+  .code-block code {
+    @apply font-mono text-sm text-gray-100;
+  }
+}
+
+@layer utilities {
+  /* Text Utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Grid Utilities */
+  .grid-noir {
+    @apply grid gap-8;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  /* Animation Utilities */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
