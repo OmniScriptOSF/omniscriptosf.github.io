@@ -1,5 +1,8 @@
+'use client';
+
 import Terminal from '@/components/Terminal'
 import CodeBlock from '@/components/CodeBlock'
+import { FileText, Robot, ArrowsClockwise, ChartBar, PaintBrush, Lightning, FilePdf, PresentationChart, FileXls } from 'phosphor-react';
 
 export default function Home() {
   const exampleOSF = `@meta {
@@ -135,36 +138,36 @@ export default function Home() {
               {
                 title: 'Git-Native',
                 description: 'Plain text format that works beautifully with version control. Meaningful diffs, no binary conflicts, perfect for collaboration.',
-                icon: '📝'
+                icon: <FileText size={48} weight="duotone" />
               },
               {
                 title: 'LLM-Friendly',
                 description: 'Designed for AI agents to read, write, and transform. Simple syntax that LLMs understand natively.',
-                icon: '🤖'
+                icon: <Robot size={48} weight="duotone" />
               },
               {
                 title: 'Multi-Format Export',
                 description: 'One source file exports to PDF, DOCX, PPTX, and XLSX. Write once, output everywhere.',
-                icon: '🔄'
+                icon: <ArrowsClockwise size={48} weight="duotone" />
               },
               {
                 title: 'Live Formulas',
                 description: 'Spreadsheet formulas that actually work. Dynamic calculations in a plain-text format.',
-                icon: '📊'
+                icon: <ChartBar size={48} weight="duotone" />
               },
               {
                 title: 'Rich Styling',
                 description: '10 professional themes. Bold, italic, code formatting. Tables, lists, and more.',
-                icon: '🎨'
+                icon: <PaintBrush size={48} weight="duotone" />
               },
               {
                 title: 'Developer-First',
                 description: 'TypeScript types, CLI tools, comprehensive tests. Built by developers, for developers.',
-                icon: '⚡'
+                icon: <Lightning size={48} weight="duotone" />
               }
             ].map((feature, i) => (
               <div key={i} className="card-hover">
-                <div className="text-4xl mb-6">{feature.icon}</div>
+                <div className="mb-6">{feature.icon}</div>
                 <h3 className="font-mono font-bold text-heading-md mb-4">
                   {feature.title}
                 </h3>
@@ -196,17 +199,23 @@ export default function Home() {
 
             <div className="mt-12 grid md:grid-cols-3 gap-4">
               <div className="card text-center">
-                <div className="font-mono text-2xl mb-2">📄</div>
+                <div className="flex justify-center mb-2">
+                  <FilePdf size={32} weight="duotone" />
+                </div>
                 <div className="font-mono font-bold text-sm mb-2">PDF</div>
                 <div className="font-mono text-xs text-gray-500">osf render --format pdf</div>
               </div>
               <div className="card text-center">
-                <div className="font-mono text-2xl mb-2">🎯</div>
+                <div className="flex justify-center mb-2">
+                  <PresentationChart size={32} weight="duotone" />
+                </div>
                 <div className="font-mono font-bold text-sm mb-2">PPTX</div>
                 <div className="font-mono text-xs text-gray-500">osf render --format pptx</div>
               </div>
               <div className="card text-center">
-                <div className="font-mono text-2xl mb-2">📊</div>
+                <div className="flex justify-center mb-2">
+                  <FileXls size={32} weight="duotone" />
+                </div>
                 <div className="font-mono font-bold text-sm mb-2">XLSX</div>
                 <div className="font-mono text-xs text-gray-500">osf render --format xlsx</div>
               </div>
