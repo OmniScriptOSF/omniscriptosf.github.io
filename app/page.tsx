@@ -44,8 +44,8 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-noir-white border-b-2 border-noir-black px-8 py-4">
         <div className="container-noir flex items-center justify-between">
-          <a href="/" className="font-mono font-bold text-xl tracking-tight flex items-center gap-2">
-            OmniScript<span className="text-gray-400">_</span>
+          <a href="/" className="font-mono font-bold text-2xl tracking-tight">
+            OmniScript_
           </a>
 
           <ul className="flex items-center gap-8">
