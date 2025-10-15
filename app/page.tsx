@@ -77,9 +77,9 @@ export default function Home() {
           </p>
 
           <p className="font-mono text-body-md text-gray-500 max-w-2xl mx-auto mb-12">
-            One format. Three outputs. Infinite possibilities.
+            One format. Infinite outputs. Infinite possibilities.
             <br />
-            Documents + Slides + Spreadsheets = OmniScript
+            Documents • Slides • Spreadsheets • Charts • Diagrams • Code
           </p>
 
           <div className="flex items-center justify-center gap-4 mb-16">
