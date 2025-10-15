@@ -58,15 +58,27 @@ export default function DocsPage() {
             ]}
           />
 
+          {/* User Guide */}
+          <DocCard
+            icon={<Book size={32} weight="duotone" />}
+            title="User Guide"
+            description="Complete guide to all OSF block types"
+            links={[
+              { text: 'All Block Types', href: '/docs/user-guide' },
+              { text: 'Best Practices', href: '/docs/user-guide#best-practices' },
+              { text: 'Common Patterns', href: '/docs/user-guide' }
+            ]}
+          />
+
           {/* API Reference */}
           <DocCard
             icon={<Wrench size={32} weight="duotone" />}
             title="API Reference"
             description="Programmatic usage of OSF packages"
             links={[
-              { text: 'Parser API', href: '/docs/api/parser' },
-              { text: 'Converters API', href: '/docs/api/converters' },
-              { text: 'CLI Reference', href: '/docs/api/cli' }
+              { text: 'Complete API Reference', href: '/docs/api-reference' },
+              { text: 'Parser & Converters', href: '/docs/api-reference' },
+              { text: 'CLI Commands', href: '/docs/api-reference' }
             ]}
           />
 
