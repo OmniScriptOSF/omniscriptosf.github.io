@@ -1,4 +1,4 @@
-# OmniScript Site
+# omniscript.github.io
 
 Official landing page for OmniScript - the universal document DSL for LLMs and AI.
 
@@ -61,7 +61,7 @@ omniscript-site/
 
 The site automatically deploys to GitHub Pages on every push to `main` branch.
 
-**Live URL**: https://omniscriptosf.github.io/omniscript-site/
+**Live URL**: https://omniscriptosf.github.io/omniscript.github.io/
 
 ## 📄 License
 
