@@ -50,6 +50,8 @@ export default function Home() {
 
           <ul className="flex items-center gap-8">
             <li><a href="#features" className="font-mono text-sm hover:underline">Features</a></li>
+            <li><a href="/playground" className="font-mono text-sm hover:underline">Playground</a></li>
+            <li><a href="/docs" className="font-mono text-sm hover:underline">Docs</a></li>
             <li><a href="https://github.com/OmniScriptOSF/omniscript-core" className="font-mono text-sm hover:underline" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             <li><a href="https://www.npmjs.com/package/omniscript-cli" className="font-mono text-sm hover:underline" target="_blank" rel="noopener noreferrer">NPM</a></li>
           </ul>
