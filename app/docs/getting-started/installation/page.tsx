@@ -10,7 +10,7 @@ import Navigation from '@/components/Navigation';
 export default function InstallationPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navigation />
+      <Navigation dark />
       <div className="container mx-auto px-4 py-12 max-w-4xl pt-24">
         <h1 className="text-5xl font-bold mb-4 border-b-4 border-white pb-4">Installation</h1>
         <p className="text-xl text-gray-300 mb-12">

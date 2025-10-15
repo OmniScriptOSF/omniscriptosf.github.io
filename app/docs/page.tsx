@@ -11,7 +11,7 @@ import { Rocket, Book, Sparkle, Wrench, Lightbulb, BookOpen, PresentationChart }
 export default function DocsPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navigation />
+      <Navigation dark />
       <div className="container mx-auto px-4 py-12 max-w-6xl pt-24">
         <h1 className="text-5xl font-bold mb-6 border-b-4 border-white pb-4">
           OmniScript Format Documentation

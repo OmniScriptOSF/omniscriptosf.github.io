@@ -119,17 +119,44 @@ export default function PlaygroundPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-black text-white">
-      {/* Header */}
-      <div className="border-b-2 border-white p-4">
-        <h1 className="text-2xl font-bold">OmniScript Playground</h1>
-        <p className="text-sm text-gray-400">Experiment with OSF in your browser</p>
+    <div className="min-h-screen flex flex-col bg-noir-white">
+      <Navigation />
+
+      {/* Page Title */}
+      <div className="border-b-2 border-noir-black p-6 mt-16">
+        <h1 className="text-3xl font-bold font-mono">OmniScript Playground</h1>
+        <p className="text-sm text-gray-600 font-mono">Experiment with OSF syntax and see live preview</p>
+      </div>
+
+      {/* Coming Soon Banner */}
+      <div className="bg-yellow-100 border-2 border-yellow-500 p-6 m-6">
+        <h2 className="font-mono font-bold text-xl text-yellow-900 mb-3">
+          🚧 Export Functionality: Coming Soon
+        </h2>
+        <p className="font-mono text-sm text-yellow-800 mb-3">
+          The playground currently shows <strong>live preview and AST output only</strong>. 
+          Server-side export to PDF/DOCX/PPTX/XLSX requires deployment to Vercel/Netlify.
+        </p>
+        <div className="bg-yellow-200 p-3 border border-yellow-600">
+          <p className="font-mono text-xs text-yellow-900 font-bold mb-2">
+            ✅ GET FULL EXPORT NOW - Use the CLI:
+          </p>
+          <pre className="font-mono text-xs bg-black text-green-400 p-2 mb-2">
+npm install -g omniscript-cli
+          </pre>
+          <pre className="font-mono text-xs bg-black text-green-400 p-2">
+osf render document.osf --format pdf
+          </pre>
+          <a href="/docs/getting-started/installation" className="font-mono text-xs text-blue-600 hover:underline font-bold">
+            → View installation guide
+          </a>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden mx-6 mb-6 border-2 border-noir-black">
         {/* Editor Panel */}
-        <div className="w-1/2 border-r-2 border-white">
+        <div className="w-1/2 border-r-2 border-noir-black">
           <MonacoEditor
             height="100%"
             language="plaintext"
@@ -148,9 +175,9 @@ export default function PlaygroundPage() {
         </div>
 
         {/* Output Panel */}
-        <div className="w-1/2 flex flex-col">
+        <div className="w-1/2 flex flex-col bg-white">
           {/* Controls */}
-          <div className="border-b-2 border-white p-4 flex gap-4 items-center flex-wrap">
+          <div className="border-b-2 border-noir-black p-4 flex gap-4 items-center flex-wrap bg-gray-100">
             <button
               onClick={handleParse}
               className="px-4 py-2 bg-white text-black hover:bg-gray-200 font-bold"
@@ -201,24 +228,24 @@ export default function PlaygroundPage() {
           </div>
 
           {/* Output Display */}
-          <div className="flex-1 overflow-auto p-4 bg-gray-900">
+          <div className="flex-1 overflow-auto p-4 bg-white text-black border-t-2 border-noir-black">
             {output === 'preview' && (
               <div
-                className="prose prose-invert max-w-none"
+                className="prose max-w-none"
                 dangerouslySetInnerHTML={{ __html: result }}
               />
             )}
             {output === 'ast' && (
-              <pre className="text-sm text-green-400 font-mono">{result}</pre>
+              <pre className="text-sm text-blue-600 font-mono bg-gray-100 p-4 rounded">{result}</pre>
             )}
             {output === 'errors' && (
-              <div className="text-red-400 font-mono">
+              <div className="text-red-600 font-mono">
                 <h3 className="text-xl font-bold mb-4">Parse Error:</h3>
-                <pre className="bg-red-900 bg-opacity-20 p-4 rounded">{result}</pre>
+                <pre className="bg-red-50 border-2 border-red-400 p-4 rounded">{result}</pre>
               </div>
             )}
             {!result && (
-              <div className="text-gray-500 text-center py-20">
+              <div className="text-gray-400 text-center py-20 font-mono">
                 Click "Parse & Preview" to see output
               </div>
             )}

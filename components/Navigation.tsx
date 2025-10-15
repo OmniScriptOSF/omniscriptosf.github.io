@@ -2,9 +2,17 @@
 // What: Shared navigation component for consistent layout
 // Why: Ensure users don't feel lost across different sections
 
-export default function Navigation() {
+interface NavigationProps {
+  dark?: boolean; // If true, uses black bg with white text for dark pages
+}
+
+export default function Navigation({ dark = false }: NavigationProps) {
+  const bgColor = dark ? 'bg-black' : 'bg-noir-white';
+  const textColor = dark ? 'text-white' : 'text-noir-black';
+  const borderColor = dark ? 'border-white' : 'border-noir-black';
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-noir-white border-b-2 border-noir-black px-8 py-4">
+    <nav className={`fixed top-0 left-0 right-0 z-50 ${bgColor} ${textColor} border-b-2 ${borderColor} px-8 py-4`}>
       <div className="container-noir flex items-center justify-between">
         <a href="/" className="font-mono font-bold text-2xl tracking-tight">
           OmniScript_

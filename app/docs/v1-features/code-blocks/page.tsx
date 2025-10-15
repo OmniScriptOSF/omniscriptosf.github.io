@@ -11,7 +11,7 @@ import { Code, GameController, CheckCircle, Warning } from 'phosphor-react';
 export default function CodeBlocksPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navigation />
+      <Navigation dark />
       <div className="container mx-auto px-4 py-12 pt-24 max-w-4xl">
         <h1 className="text-5xl font-bold mb-6 border-b-4 border-green-500 pb-4">
           @code Blocks
