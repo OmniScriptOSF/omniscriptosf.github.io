@@ -66,10 +66,10 @@ export default function DocsPage() {
             title="v1.1 Features (NEW)"
             description="Enhanced formatting and security"
             links={[
+              { text: 'Complete v1.1 Guide', href: '/docs/v1-1-features' },
               { text: 'Strikethrough Text', href: '/docs/releases/v1-1#strikethrough' },
               { text: 'Unicode Escapes', href: '/docs/releases/v1-1#unicode' },
-              { text: 'Position Tracking', href: '/docs/releases/v1-1#errors' },
-              { text: 'XSS Prevention', href: '/docs/releases/v1-1#security' }
+              { text: 'Security & XSS', href: '/docs/releases/v1-1#security' }
             ]}
           />
 
@@ -103,10 +103,9 @@ export default function DocsPage() {
             title="Examples"
             description="Real-world OSF documents and templates"
             links={[
-              { text: 'View All Examples', href: '/docs/examples' },
-              { text: 'Documents', href: '/docs/examples/documents' },
-              { text: 'Presentations', href: '/docs/examples/presentations' },
-              { text: 'Spreadsheets', href: '/docs/examples/spreadsheets' }
+              { text: 'Browse Examples on GitHub', href: 'https://github.com/OmniScriptOSF/omniscript-examples' },
+              { text: 'Getting Started Examples', href: 'https://github.com/OmniScriptOSF/omniscript-examples/tree/main/getting-started' },
+              { text: 'Advanced Examples', href: 'https://github.com/OmniScriptOSF/omniscript-examples/tree/main/advanced' }
             ]}
           />
 

@@ -43,7 +43,7 @@ export default function FirstDocumentPage() {
 {`@meta {
   title: "My First Document";
   author: "Your Name";
-  date: "2025-10-15";
+  date: "2025-01-16";
   theme: default;
 }`}
             </pre>

@@ -53,8 +53,8 @@ export default function UserGuidePage() {
 {`@meta {
   title: "My Document";
   author: "Your Name";
-  date: "2025-10-15";
-  version: "1.0";
+  date: "2025-01-16";
+  version: "1.1";
   theme: "Corporate";
 }`}
               </pre>
@@ -77,6 +77,8 @@ export default function UserGuidePage() {
   content: "# Welcome to OmniScript
 
   This is a **bold** statement and this is *italic* text.
+  
+  New in v1.1: ~~Strikethrough~~ support and unicode ✓
 
   ## Features
   - Easy to learn
