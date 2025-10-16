@@ -21,6 +21,51 @@ export default function ReleasesPage() {
           View release notes, changelogs, and migration guides for all versions of OmniScript Format.
         </p>
 
+        {/* v1.2 - Tables & Includes */}
+        <div className="mb-12 border-2 border-green-500 p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <h2 className="text-3xl font-bold">v1.2.0</h2>
+            <span className="px-3 py-1 bg-green-500 text-black text-sm font-bold">
+              LATEST RELEASE
+            </span>
+            <span className="text-gray-400">October 16, 2025</span>
+          </div>
+          
+          <p className="text-gray-300 mb-4">
+            <CheckCircle size={20} weight="duotone" className="inline mr-2" />
+            Major update! Tables, modular documents, and enterprise-grade security.
+          </p>
+          
+          <div className="mb-4">
+            <h3 className="text-xl font-bold mb-2">✨ What's New</h3>
+            <ul className="list-disc list-inside space-y-1 text-gray-300">
+              <li>@table blocks - Markdown-style tables with captions, alignment, styling</li>
+              <li>@include directive - Modular documents with file composition</li>
+              <li>Security Grade A+ - Path traversal protection, ReDoS prevention</li>
+              <li>203 tests passing (130 core + 73 converters)</li>
+              <li>85-91% code reduction - Highly modular architecture</li>
+              <li>Zero breaking changes - Fully backward compatible</li>
+            </ul>
+          </div>
+
+          <div className="flex gap-4">
+            <a 
+              href="/docs/releases/v1-2" 
+              className="px-6 py-3 bg-white text-black font-bold hover:bg-gray-200"
+            >
+              Read Full Release Notes →
+            </a>
+            <a 
+              href="https://github.com/OmniScriptOSF/omniscript-core/releases/tag/v1.2.0" 
+              className="px-6 py-3 border-2 border-white hover:bg-white hover:text-black font-bold"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
         {/* v1.0 - Production Release */}
         <div className="mb-12 border-2 border-green-500 p-6">
           <div className="flex items-center gap-4 mb-4">
@@ -107,10 +152,43 @@ export default function ReleasesPage() {
           </a>
         </div>
 
+        {/* v1.1 - Enhanced Features */}
+        <div className="mb-12 border-2 border-white p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <h2 className="text-3xl font-bold">v1.1.0</h2>
+            <span className="px-3 py-1 bg-gray-700 text-white text-sm font-bold">
+              STABLE
+            </span>
+            <span className="text-gray-400">October 16, 2025</span>
+          </div>
+          
+          <p className="text-gray-300 mb-4">
+            Enhanced formatting and security improvements.
+          </p>
+          
+          <div className="mb-4">
+            <h3 className="text-xl font-bold mb-2">✨ What's New</h3>
+            <ul className="list-disc list-inside space-y-1 text-gray-300">
+              <li>Strikethrough text support (~~text~~)</li>
+              <li>Ordered lists and blockquotes</li>
+              <li>Unicode escape sequences</li>
+              <li>Enhanced XSS protection</li>
+              <li>Better error messages with line numbers</li>
+            </ul>
+          </div>
+
+          <a 
+            href="/docs/releases/v1-1" 
+            className="inline-block px-6 py-3 border-2 border-white hover:bg-white hover:text-black font-bold"
+          >
+            Read v1.1 Release Notes
+          </a>
+        </div>
+
         {/* Upcoming */}
         <div className="border-2 border-blue-500 p-6">
           <div className="flex items-center gap-4 mb-4">
-            <h2 className="text-3xl font-bold">v1.1</h2>
+            <h2 className="text-3xl font-bold">v1.3</h2>
             <span className="px-3 py-1 bg-blue-500 text-black text-sm font-bold">
               PLANNED
             </span>
@@ -123,11 +201,11 @@ export default function ReleasesPage() {
           <div className="mb-4">
             <h3 className="text-xl font-bold mb-2">📋 Roadmap</h3>
             <ul className="list-disc list-inside space-y-1 text-gray-300">
-              <li>@table block - Markdown-style tables</li>
-              <li>@include directive - Import external files</li>
+              <li>@table converter support (PDF, DOCX, PPTX)</li>
               <li>@variables - Template variables</li>
               <li>Custom themes system</li>
               <li>Plugin architecture</li>
+              <li>Real-time collaboration</li>
             </ul>
           </div>
 

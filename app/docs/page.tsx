@@ -60,10 +60,23 @@ export default function DocsPage() {
             ]}
           />
 
+          {/* v1.2 Features */}
+          <DocCard
+            icon={<Sparkle size={32} weight="duotone" />}
+            title="v1.2 Features (NEW)"
+            description="Tables, Includes & Enterprise Security"
+            links={[
+              { text: 'Complete v1.2 Guide', href: '/docs/v1-2-features' },
+              { text: '@table Blocks', href: '/docs/v1-2-features#table' },
+              { text: '@include Directive', href: '/docs/v1-2-features#include' },
+              { text: 'Security Grade A+', href: '/docs/v1-2-features#security' }
+            ]}
+          />
+
           {/* v1.1 Features */}
           <DocCard
             icon={<Sparkle size={32} weight="duotone" />}
-            title="v1.1 Features (NEW)"
+            title="v1.1 Features"
             description="Enhanced formatting and security"
             links={[
               { text: 'Complete v1.1 Guide', href: '/docs/v1-1-features' },
@@ -115,7 +128,8 @@ export default function DocsPage() {
             title="Releases"
             description="Release notes and changelogs"
             links={[
-              { text: 'v1.1 Release Notes (Latest)', href: '/docs/releases/v1-1' },
+              { text: 'v1.2 Release Notes (Latest)', href: '/docs/releases/v1-2' },
+              { text: 'v1.1 Release Notes', href: '/docs/releases/v1-1' },
               { text: 'v1.0 Release Notes', href: '/docs/releases/v1-0' },
               { text: 'All Releases', href: '/docs/releases' },
               { text: 'Changelog', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/CHANGELOG.md' }
@@ -128,8 +142,8 @@ export default function DocsPage() {
             title="Resources"
             description="Additional learning materials"
             links={[
-              { text: 'Specification v1.1 (Current)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.1/osf-spec.md' },
-              { text: 'Specification v1.0', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.0/osf-spec.md' },
+              { text: 'Specification v1.2 (Current)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.2/osf-spec.md' },
+              { text: 'Specification v1.1', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.1/osf-spec.md' },
               { text: 'GitHub Repository', href: 'https://github.com/OmniScriptOSF/omniscript-core' },
               { text: 'VSCode Extension', href: 'https://marketplace.visualstudio.com/items?itemName=OmniScriptOSF.omniscript-vscode' }
             ]}
