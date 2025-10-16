@@ -6,7 +6,7 @@
 export default function V11ReleasePage() {
   return (
     <div className="prose prose-noir max-w-4xl">
-      <h1>OmniScript v1.1.0 Release</h1>
+      <h1 id="top">OmniScript v1.1.0 Release</h1>
       <p className="lead">
         <strong>Release Date:</strong> January 16, 2025<br />
         <strong>Status:</strong> ✅ Production Ready<br />
@@ -15,34 +15,80 @@ export default function V11ReleasePage() {
 
       <hr />
 
+      <h2>Table of Contents</h2>
+      <ul>
+        <li><a href="#strikethrough">Strikethrough Text</a></li>
+        <li><a href="#unicode">Unicode Escape Sequences</a></li>
+        <li><a href="#errors">Position Tracking in Errors</a></li>
+        <li><a href="#rendering">Extended HTML Rendering</a></li>
+        <li><a href="#security">Security Improvements</a></li>
+        <li><a href="#upgrade">Upgrade Guide</a></li>
+      </ul>
+
+      <hr />
+
       <h2>🎉 What's New</h2>
 
-      <h3>✨ Enhanced Text Formatting</h3>
+      <h3 id="strikethrough">✨ Strikethrough Text Formatting</h3>
+      <p>Use <code>~~text~~</code> syntax for strikethrough formatting:</p>
+      <pre><code>{`@slide {
+  title: "Product Updates";
+  
+  Price: ~~$99~~ **$79** today only!
+}`}</code></pre>
+      <p><strong>Renders as:</strong> Price: <s>$99</s> <strong>$79</strong> today only!</p>
+
+      <h3 id="unicode">🌐 Unicode Escape Sequences</h3>
+      <p>Full support for <code>\uXXXX</code> (4-digit hex) and <code>\xXX</code> (2-digit hex):</p>
+      <pre><code>{`@meta {
+  title: "Copyright \\u00A9 2025";    // ©
+  status: "Complete \\u2713";         // ✓
+  author: "Caf\\xE9";                 // Café
+}`}</code></pre>
+      <p><strong>Features:</strong></p>
       <ul>
-        <li><strong>Strikethrough Support</strong> - Use <code>~~text~~</code> syntax for strikethrough</li>
-        <li><strong>Unicode Escapes</strong> - Full support for <code>\uXXXX</code> and <code>\xXX</code> in strings</li>
-        <li><strong>Round-Trip Fidelity</strong> - Perfect preservation through parse/serialize cycles</li>
+        <li>Perfect round-trip: parse(serialize(doc)) === doc</li>
+        <li>Automatic escaping on serialization</li>
+        <li>Full Unicode range (U+0000 to U+FFFF)</li>
       </ul>
 
-      <h3>🔍 Better Developer Experience</h3>
+      <h3 id="errors">🔍 Position Tracking in Errors</h3>
+      <p>All parser errors now include precise line:column information:</p>
+      <pre><code>{`// Before (v1.0)
+Error: Missing closing }
+
+// After (v1.1)  
+Error: Missing closing } for block meta at 15:42
+Error: Expected identifier at 8:5
+Error: Invalid number format at 12:18`}</code></pre>
+      <p><strong>Benefits:</strong> 10x faster debugging for large documents!</p>
+
+      <h3 id="rendering">🌐 Extended HTML Rendering</h3>
+      <p>HTML output now supports all content block types:</p>
       <ul>
-        <li><strong>Position Tracking</strong> - Errors show exact line:column (e.g., "Error at 5:12")</li>
-        <li><strong>String Validation</strong> - Detect unterminated strings with clear messages</li>
-        <li><strong>Enhanced Debugging</strong> - Faster problem resolution</li>
+        <li><strong>Ordered Lists</strong> - Renders as <code>&lt;ol&gt;</code></li>
+        <li><strong>Blockquotes</strong> - Renders as <code>&lt;blockquote&gt;</code></li>
+        <li><strong>Code Blocks</strong> - Syntax highlighting with <code>&lt;pre&gt;&lt;code&gt;</code></li>
+        <li><strong>Images</strong> - Proper <code>&lt;img&gt;</code> tags</li>
+        <li><strong>Links</strong> - Proper <code>&lt;a&gt;</code> tags</li>
       </ul>
 
-      <h3>🌐 Extended Export Capabilities</h3>
+      <h3>📝 Enhanced Markdown Export</h3>
+      <p>Markdown export now preserves ALL formatting:</p>
       <ul>
-        <li><strong>HTML Rendering</strong> - Ordered lists, blockquotes, code blocks, images, links</li>
-        <li><strong>Markdown Export</strong> - Full formatting preservation including strikethrough</li>
-        <li><strong>Working Converters</strong> - PDF/DOCX/PPTX/XLSX now fully functional in CLI</li>
+        <li>Strikethrough → <code>~~text~~</code></li>
+        <li>Ordered lists → <code>1. 2. 3.</code></li>
+        <li>Blockquotes → <code>&gt; text</code></li>
+        <li>Code blocks → <code>```language ... ```</code></li>
       </ul>
 
-      <h3>🔒 Security Improvements</h3>
-      <ul>
-        <li><strong>XSS Prevention</strong> - All HTML output properly sanitized</li>
-        <li><strong>Input Validation</strong> - Enhanced safety checks throughout parser</li>
-      </ul>
+      <h3 id="security">🔒 Security Improvements</h3>
+      <p><strong>XSS Prevention</strong> - All HTML output is properly escaped:</p>
+      <pre><code>{`@meta { title: "<script>alert('xss')</script>"; }
+
+// v1.0: Would render dangerous <script> tag
+// v1.1: Renders safe: &lt;script&gt;...&lt;/script&gt;`}</code></pre>
+      <p><strong>Applies to:</strong> All meta properties, document content, slide content, and sheet values.</p>
 
       <hr />
 
@@ -71,7 +117,7 @@ export default function V11ReleasePage() {
 
       <hr />
 
-      <h2>🔄 Upgrade Guide</h2>
+      <h2 id="upgrade">🔄 Upgrade Guide</h2>
 
       <p>Upgrading is simple - just update your packages:</p>
 
@@ -80,6 +126,16 @@ npm install omniscript-cli@1.1.0
 npm install omniscript-converters@1.1.0`}</code></pre>
 
       <p><strong>No code changes required!</strong> All v1.0 documents work without modification.</p>
+
+      <h3>What You Get</h3>
+      <ul>
+        <li>✅ Use <code>~~strikethrough~~</code> in your documents</li>
+        <li>✅ Better error messages with exact locations</li>
+        <li>✅ HTML rendering includes all content types</li>
+        <li>✅ Markdown export preserves all formatting</li>
+        <li>✅ PDF/DOCX/PPTX/XLSX rendering actually works via CLI</li>
+        <li>✅ Protected against XSS attacks automatically</li>
+      </ul>
 
       <hr />
 

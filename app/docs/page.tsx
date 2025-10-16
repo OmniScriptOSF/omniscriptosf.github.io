@@ -52,11 +52,24 @@ export default function DocsPage() {
           <DocCard
             icon={<Sparkle size={32} weight="duotone" />}
             title="v1.0 Features"
-            description="New features in version 1.0"
+            description="Advanced blocks (charts, diagrams, code)"
             links={[
               { text: '@chart Blocks', href: '/docs/v1-features/chart-blocks' },
               { text: '@diagram Blocks', href: '/docs/v1-features/diagram-blocks' },
               { text: '@code Blocks', href: '/docs/v1-features/code-blocks' }
+            ]}
+          />
+
+          {/* v1.1 Features */}
+          <DocCard
+            icon={<Sparkle size={32} weight="duotone" />}
+            title="v1.1 Features (NEW)"
+            description="Enhanced formatting and security"
+            links={[
+              { text: 'Strikethrough Text', href: '/docs/releases/v1-1#strikethrough' },
+              { text: 'Unicode Escapes', href: '/docs/releases/v1-1#unicode' },
+              { text: 'Position Tracking', href: '/docs/releases/v1-1#errors' },
+              { text: 'XSS Prevention', href: '/docs/releases/v1-1#security' }
             ]}
           />
 
@@ -103,6 +116,7 @@ export default function DocsPage() {
             title="Releases"
             description="Release notes and changelogs"
             links={[
+              { text: 'v1.1 Release Notes (Latest)', href: '/docs/releases/v1-1' },
               { text: 'v1.0 Release Notes', href: '/docs/releases/v1-0' },
               { text: 'All Releases', href: '/docs/releases' },
               { text: 'Changelog', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/CHANGELOG.md' }
@@ -115,6 +129,7 @@ export default function DocsPage() {
             title="Resources"
             description="Additional learning materials"
             links={[
+              { text: 'Specification v1.1 (Current)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.1/osf-spec.md' },
               { text: 'Specification v1.0', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.0/osf-spec.md' },
               { text: 'GitHub Repository', href: 'https://github.com/OmniScriptOSF/omniscript-core' },
               { text: 'VSCode Extension', href: 'https://marketplace.visualstudio.com/items?itemName=OmniScriptOSF.omniscript-vscode' }

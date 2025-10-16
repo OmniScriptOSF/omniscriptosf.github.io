@@ -57,7 +57,7 @@ export default function InstallationPage() {
           
           <div className="bg-gray-900 p-4 rounded border-2 border-gray-700">
             <pre className="text-gray-400 font-mono">
-              <code>omniscript-cli v1.0.0</code>
+              <code>omniscript-cli v1.1.0</code>
             </pre>
           </div>
         </section>
