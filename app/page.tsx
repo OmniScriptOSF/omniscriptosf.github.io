@@ -17,6 +17,11 @@ export default function Home() {
 
   Our Q2 performance exceeded expectations with **15% revenue growth**
   and significant improvements in customer retention.
+  
+  ## NEW in v1.1
+  - ~~Old text~~ **Strikethrough support**
+  - Ordered lists and blockquotes
+  - Enhanced security (XSS prevention)
 }
 
 @slide {
@@ -65,7 +70,7 @@ export default function Home() {
       <section className="min-h-screen flex items-center justify-center bg-noir-white pt-20">
         <div className="container-noir text-center py-20">
           <div className="inline-block px-4 py-2 bg-green-100 border-2 border-green-600 mb-8">
-            <span className="font-mono text-sm font-bold text-green-800">v1.0.0 • Production Ready</span>
+            <span className="font-mono text-sm font-bold text-green-800">v1.1.0 • Enhanced Features & Security</span>
           </div>
 
           <h1 className="font-sans text-display-xl mb-8 tracking-tight">
