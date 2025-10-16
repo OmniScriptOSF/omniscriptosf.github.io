@@ -8,7 +8,7 @@ export default function V11ReleasePage() {
     <div className="prose prose-noir max-w-4xl">
       <h1 id="top">OmniScript v1.1.0 Release</h1>
       <p className="lead">
-        <strong>Release Date:</strong> January 16, 2025<br />
+        <strong>Release Date:</strong> October 16, 2025<br />
         <strong>Status:</strong> ✅ Production Ready<br />
         <strong>Compatibility:</strong> 100% backward compatible with v1.0
       </p>

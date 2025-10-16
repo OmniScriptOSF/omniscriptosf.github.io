@@ -53,7 +53,7 @@ export default function UserGuidePage() {
 {`@meta {
   title: "My Document";
   author: "Your Name";
-  date: "2025-01-16";
+  date: "2025-10-16";
   version: "1.1";
   theme: "Corporate";
 }`}
