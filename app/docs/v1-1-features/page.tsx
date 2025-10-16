@@ -6,7 +6,7 @@
 'use client';
 
 import Navigation from '@/components/Navigation';
-import { Sparkles } from 'phosphor-react';
+import { Sparkle } from 'phosphor-react';
 
 export default function V11FeaturesPage() {
   return (
@@ -16,7 +16,7 @@ export default function V11FeaturesPage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <Sparkles size={48} weight="duotone" className="text-green-400" />
+            <Sparkle size={48} weight="duotone" className="text-green-400" />
             <h1 className="text-5xl font-bold">v1.1 Features</h1>
           </div>
           <p className="text-gray-400">Enhanced formatting, unicode support, and security improvements</p>
