@@ -105,7 +105,7 @@ export default function V11FeaturesPage() {
 
             <div className="bg-gray-900 p-4 rounded">
               <p className="text-sm text-gray-500 mb-2">v1.1 Error (precise):</p>
-              <pre className="text-red-400 text-sm">Error: Missing closing } for block meta at 15:42</pre>
+              <pre className="text-red-400 text-sm">{`Error: Missing closing } for block meta at 15:42`}</pre>
             </div>
           </section>
 

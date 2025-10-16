@@ -6,46 +6,47 @@ import { FileText, Robot, ArrowsClockwise, ChartBar, PaintBrush, Lightning, File
 
 export default function Home() {
   const exampleOSF = `@meta {
-  title: "Q2 Business Review";
+  title: "Q4 Business Review";
   author: "Your Team";
-  date: "2025-01-15";
+  date: "2025-10-16";
   theme: "Corporate";
 }
 
 @doc {
   # Executive Summary
 
-  Our Q2 performance exceeded expectations with **15% revenue growth**
+  Our Q4 performance exceeded expectations with **20% revenue growth**
   and significant improvements in customer retention.
   
-  ## NEW in v1.1
-  - ~~Old text~~ **Strikethrough support**
-  - Ordered lists and blockquotes
-  - Enhanced security (XSS prevention)
+  ## NEW in v1.2 🎉
+  - **@table blocks** - Markdown-style tables
+  - **@include** - Modular document composition
+  - Enhanced security (Grade A+)
+}
+
+@table {
+  caption: "Regional Performance";
+  style: "bordered";
+  alignment: ["left", "right", "right", "center"];
+  
+  | Region | Q3 Revenue | Q4 Revenue | Growth |
+  | --- | --- | --- | --- |
+  | North America | $975K | $1,150K | +18% ↗ |
+  | Europe | $748K | $880K | +17% ↗ |
+  | Asia Pacific | $477K | $592K | +24% ↗ |
 }
 
 @slide {
   title: "Key Metrics";
   layout: TitleAndBullets;
   bullets {
-    "💰 Revenue grew 15% to $2.3M";
-    "👥 Customer churn decreased to 3%";
-    "🚀 Launched 3 major features";
+    "💰 Revenue grew 20% to $2.6M";
+    "👥 Customer churn decreased to 2%";
+    "🚀 Launched @table and @include features";
   }
 }
 
-@sheet {
-  name: "Regional Performance";
-  cols: [Region, Q1, Q2, Growth];
-  data {
-    (2,1)="North America"; (2,2)=850000; (2,3)=975000;
-    (3,1)="Europe"; (3,2)=650000; (3,3)=748000;
-    (4,1)="Asia Pacific"; (4,2)=400000; (4,3)=477000;
-  }
-  formula (2,4): "=(C2-B2)/B2*100";
-  formula (3,4): "=(C3-B3)/B3*100";
-  formula (4,4): "=(C4-B4)/B4*100";
-}`
+@include { path: "./sections/financial-details.osf"; }`
 
   return (
     <div className="min-h-screen">
@@ -70,7 +71,7 @@ export default function Home() {
       <section className="min-h-screen flex items-center justify-center bg-noir-white pt-20">
         <div className="container-noir text-center py-20">
           <div className="inline-block px-4 py-2 bg-green-100 border-2 border-green-600 mb-8">
-            <span className="font-mono text-sm font-bold text-green-800">v1.1.0 • Enhanced Features & Security</span>
+            <span className="font-mono text-sm font-bold text-green-800">v1.2.0 • Tables, Includes & Security A+</span>
           </div>
 
           <h1 className="font-sans text-display-xl mb-8 tracking-tight">
@@ -84,7 +85,7 @@ export default function Home() {
           <p className="font-mono text-body-md text-gray-500 max-w-2xl mx-auto mb-12">
             One format. Infinite outputs. Infinite possibilities.
             <br />
-            Documents • Slides • Spreadsheets • Charts • Diagrams • Code
+            Documents • Slides • Spreadsheets • <strong className="text-green-600">Tables</strong> • <strong className="text-green-600">Modular</strong> • Charts
           </p>
 
           <div className="flex items-center justify-center gap-4 mb-16">
@@ -162,7 +163,7 @@ export default function Home() {
               },
               {
                 title: 'Rich Styling',
-                description: '10 professional themes. Bold, italic, code formatting. Tables, lists, and more.',
+                description: '10 professional themes. Tables with alignment. Bold, italic, code formatting. Lists and more.',
                 icon: <PaintBrush size={48} weight="duotone" />
               },
               {
@@ -192,7 +193,7 @@ export default function Home() {
             See It In Action
           </h2>
           <p className="font-mono text-body-md text-gray-600 text-center max-w-2xl mx-auto mb-16">
-            One OSF file combines documents, slides, and spreadsheets with live formulas.
+            One OSF file combines documents, slides, tables, and modular includes — all in plain text.
           </p>
 
           <div className="max-w-4xl mx-auto">
@@ -245,7 +246,7 @@ export default function Home() {
               <Terminal>
                 <div className="flex items-center gap-2">
                   <span className="text-gray-500">$</span>
-                  <span>npm install -g omniscript-cli</span>
+                  <span>npm install -g omniscript-cli@1.2.1</span>
                 </div>
               </Terminal>
             </div>
@@ -313,9 +314,9 @@ export default function Home() {
             <div>
               <div className="font-mono font-bold text-sm mb-4">Packages</div>
               <ul className="space-y-2 font-mono text-sm text-gray-400">
-                <li><span className="hover:text-noir-white">omniscript-parser</span></li>
-                <li><span className="hover:text-noir-white">omniscript-cli</span></li>
-                <li><span className="hover:text-noir-white">omniscript-converters</span></li>
+                <li><span className="hover:text-noir-white">omniscript-parser@1.2.0</span></li>
+                <li><span className="hover:text-noir-white">omniscript-cli@1.2.1</span></li>
+                <li><span className="hover:text-noir-white">omniscript-converters@1.2.0</span></li>
               </ul>
             </div>
           </div>
