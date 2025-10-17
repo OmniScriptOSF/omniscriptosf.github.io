@@ -280,10 +280,8 @@ export default function Home() {
 
           <div className="text-center mt-16">
             <a
-              href="https://github.com/OmniScriptOSF/omniscript-core"
+              href="/docs"
               className="inline-block px-8 py-4 bg-noir-white text-noir-black font-mono font-bold text-sm uppercase tracking-wide border-2 border-noir-white hover:bg-gray-900 hover:text-noir-white transition-all duration-200"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Read the Full Documentation
             </a>
