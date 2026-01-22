@@ -118,7 +118,7 @@ export default function DocsPage() {
             links={[
               { text: 'Browse Examples on GitHub', href: 'https://github.com/OmniScriptOSF/omniscript-examples' },
               { text: 'Getting Started Examples', href: 'https://github.com/OmniScriptOSF/omniscript-examples/tree/main/getting-started' },
-              { text: 'Advanced Examples', href: 'https://github.com/OmniScriptOSF/omniscript-examples/tree/main/advanced' }
+              { text: 'Multi-format Examples', href: 'https://github.com/OmniScriptOSF/omniscript-examples/tree/main/combined' }
             ]}
           />
 
