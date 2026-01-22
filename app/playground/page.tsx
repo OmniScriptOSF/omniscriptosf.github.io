@@ -295,7 +295,7 @@ function generatePreviewHTML(doc: any): string {
         html += '<div class="mb-8 p-6 border-2 border-blue-500 bg-blue-900 bg-opacity-20 rounded">';
         html += `<h2 class="text-2xl font-bold mb-4">${block.title || 'Slide'}</h2>`;
         if (block.content) {
-          html += convertMarkdownToHTML(block.content.map((c: any) => c.text || '').join('\n'));
+          html += renderSlideContentHTML(block.content);
         }
         html += '</div>';
         break;
@@ -321,6 +321,33 @@ function generatePreviewHTML(doc: any): string {
         html += `<pre class="text-sm bg-black bg-opacity-50 p-4 rounded overflow-x-auto">${block.code}</pre>`;
         html += '</div>';
         break;
+
+      case 'table':
+        html += '<div class="mb-8 overflow-x-auto">';
+        if (block.caption) {
+          html += `<p class="text-sm text-gray-400 italic mb-2">${block.caption}</p>`;
+        }
+        html += '<table class="min-w-full border border-gray-700 text-sm">';
+        html += '<thead class="bg-gray-800"><tr>';
+        block.headers.forEach((header: string) => {
+          html += `<th class="px-3 py-2 text-left font-semibold border border-gray-700">${escapeHTML(
+            header
+          )}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+        block.rows.forEach((row: any, rowIndex: number) => {
+          const rowClass =
+            block.style === 'striped' && rowIndex % 2 === 1 ? ' bg-gray-800/60' : '';
+          html += `<tr class="${rowClass}">`;
+          row.cells.forEach((cell: any) => {
+            html += `<td class="px-3 py-2 border border-gray-700">${escapeHTML(
+              cell.text
+            )}</td>`;
+          });
+          html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        break;
       
       case 'osfcode':
         html += '<div class="mb-8">';
@@ -341,6 +368,7 @@ function convertMarkdownToHTML(text: string): string {
   let html = '';
   let paragraph: string[] = [];
   let listItems: string[] = [];
+  let blockquoteLines: string[] = [];
 
   const flushParagraph = () => {
     if (paragraph.length > 0) {
@@ -358,11 +386,21 @@ function convertMarkdownToHTML(text: string): string {
     }
   };
 
+  const flushBlockquote = () => {
+    if (blockquoteLines.length > 0) {
+      html += `<blockquote class="border-l-4 border-gray-600 pl-4 italic text-gray-300 my-3">${blockquoteLines
+        .map((line) => `<p>${renderInlineMarkdown(line)}</p>`)
+        .join('')}</blockquote>`;
+      blockquoteLines = [];
+    }
+  };
+
   for (const rawLine of lines) {
     const line = rawLine.trim();
     if (!line) {
       flushParagraph();
       flushList();
+      flushBlockquote();
       continue;
     }
 
@@ -370,6 +408,7 @@ function convertMarkdownToHTML(text: string): string {
     if (headingMatch) {
       flushParagraph();
       flushList();
+      flushBlockquote();
       const level = headingMatch[1].length;
       const size =
         level === 1 ? 'text-3xl' : level === 2 ? 'text-2xl' : 'text-xl';
@@ -382,20 +421,111 @@ function convertMarkdownToHTML(text: string): string {
     const listMatch = /^[-*]\s+(.+)$/.exec(line);
     if (listMatch) {
       flushParagraph();
+      flushBlockquote();
       listItems.push(listMatch[1]);
+      continue;
+    }
+
+    const quoteMatch = /^>\s?(.+)$/.exec(line);
+    if (quoteMatch) {
+      flushParagraph();
+      flushList();
+      blockquoteLines.push(quoteMatch[1]);
       continue;
     }
 
     if (listItems.length > 0) {
       flushList();
     }
+    if (blockquoteLines.length > 0) {
+      flushBlockquote();
+    }
     paragraph.push(line);
   }
 
   flushParagraph();
   flushList();
+  flushBlockquote();
 
   return html;
+}
+
+function renderSlideContentHTML(contentBlocks: any[]): string {
+  let html = '';
+
+  for (const block of contentBlocks) {
+    if (block.type === 'unordered_list') {
+      html += '<ul class="list-disc pl-6 my-2">';
+      for (const item of block.items) {
+        html += `<li>${renderRuns(item.content)}</li>`;
+      }
+      html += '</ul>';
+    } else if (block.type === 'ordered_list') {
+      html += '<ol class="list-decimal pl-6 my-2">';
+      for (const item of block.items) {
+        html += `<li>${renderRuns(item.content)}</li>`;
+      }
+      html += '</ol>';
+    } else if (block.type === 'blockquote') {
+      html += '<blockquote class="border-l-4 border-blue-500 pl-4 italic text-gray-300 my-3">';
+      for (const paragraph of block.content) {
+        html += `<p>${renderRuns(paragraph.content)}</p>`;
+      }
+      html += '</blockquote>';
+    } else if (block.type === 'paragraph') {
+      const rawText = runsToText(block.content).trim();
+      const headingMatch = /^(#{1,3})\s+(.+)$/.exec(rawText);
+      if (headingMatch) {
+        const level = headingMatch[1].length;
+        const size =
+          level === 1 ? 'text-3xl' : level === 2 ? 'text-2xl' : 'text-xl';
+        html += `<h${level} class="${size} font-bold mt-4 mb-2">${renderInlineMarkdown(
+          headingMatch[2]
+        )}</h${level}>`;
+      } else {
+        html += `<p class="my-2">${renderRuns(block.content)}</p>`;
+      }
+    }
+  }
+
+  return html;
+}
+
+function renderRuns(runs: any[]): string {
+  return runs
+    .map((run) => {
+      if (typeof run === 'string') {
+        return escapeHTML(run);
+      }
+      if (run.type === 'link') {
+        const text = escapeHTML(run.text || '');
+        const url = escapeHTML(run.url || '#');
+        return `<a class="underline text-blue-400" href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+      }
+      if (run.type === 'image') {
+        const alt = escapeHTML(run.alt || '');
+        const url = escapeHTML(run.url || '');
+        return `<img class="inline-block max-h-32" src="${url}" alt="${alt}" />`;
+      }
+      let content = escapeHTML(run.text || '');
+      if (run.bold) content = `<strong>${content}</strong>`;
+      if (run.italic) content = `<em>${content}</em>`;
+      if (run.underline) content = `<span class="underline">${content}</span>`;
+      if (run.strike) content = `<span class="line-through">${content}</span>`;
+      return content;
+    })
+    .join('');
+}
+
+function runsToText(runs: any[]): string {
+  return runs
+    .map((run) => {
+      if (typeof run === 'string') return run;
+      if (run.type === 'link') return run.text || '';
+      if (run.type === 'image') return run.alt || '';
+      return run.text || '';
+    })
+    .join('');
 }
 
 function renderInlineMarkdown(text: string): string {
