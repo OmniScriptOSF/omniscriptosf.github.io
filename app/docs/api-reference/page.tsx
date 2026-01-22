@@ -41,12 +41,14 @@ npm install omniscript-parser
 // Parse OSF to AST
 const osfCode = \`
 @meta { title: "My Document"; }
-@doc { content: "# Hello World"; }
+@doc {
+  # Hello World
+}
 \`;
 
 const ast = parse(osfCode);
 console.log(ast);
-// Output: { version: "1.0", blocks: [...] }
+// Output: { blocks: [...] }
 
 // Serialize AST back to OSF
 const osfOutput = serialize(ast);
@@ -56,15 +58,15 @@ console.log(osfOutput);`}
             <h3 className="text-2xl font-bold mb-4">API</h3>
             
             <div className="mb-6 border-2 border-blue-500 p-6">
-              <h4 className="font-bold text-xl mb-3">parse(osfCode: string): OSFDocument</h4>
+              <h4 className="font-bold text-xl mb-3">parse(osfCode: string, options?: ParseOptions): OSFDocument</h4>
               <p className="text-gray-300 mb-4">
                 Parses OSF text into an Abstract Syntax Tree (AST).
               </p>
               <p className="text-sm text-gray-400">
-                <strong>Parameters:</strong> osfCode - String containing OSF content
+                <strong>Parameters:</strong> osfCode - String containing OSF content; options - Include resolution settings
               </p>
               <p className="text-sm text-gray-400">
-                <strong>Returns:</strong> OSFDocument object with version and blocks array
+                <strong>Returns:</strong> OSFDocument object with blocks array (and includes when present)
               </p>
               <p className="text-sm text-gray-400">
                 <strong>Throws:</strong> Error if syntax is invalid
@@ -89,26 +91,24 @@ console.log(osfOutput);`}
 {`interface OSFDocument {
   version?: string;
   blocks: OSFBlock[];
+  includes?: IncludeDirective[];
 }
 
-type OSFBlock = 
-  | MetaBlock 
-  | DocBlock 
-  | SlideBlock 
-  | SheetBlock 
-  | ChartBlock 
-  | DiagramBlock 
-  | OSFCodeBlock;
+type OSFValue = string | number | boolean | OSFValue[] | { [key: string]: OSFValue };
+
+type OSFBlock =
+  | MetaBlock
+  | DocBlock
+  | SlideBlock
+  | SheetBlock
+  | ChartBlock
+  | DiagramBlock
+  | OSFCodeBlock
+  | TableBlock;
 
 interface MetaBlock {
   type: 'meta';
-  title?: string;
-  author?: string;
-  date?: string;
-  version?: string;
-  theme?: string;
-  tags?: string[];
-  description?: string;
+  props: Record<string, OSFValue>;
 }
 
 interface ChartBlock {
@@ -117,6 +117,21 @@ interface ChartBlock {
   title: string;
   data: ChartDataSeries[];
   options?: ChartOptions;
+}
+
+interface TableBlock {
+  type: 'table';
+  caption?: string;
+  style?: 'bordered' | 'striped' | 'minimal';
+  alignment?: ('left' | 'center' | 'right')[];
+  headers: string[];
+  rows: { cells: { text: string }[] }[];
+}
+
+interface IncludeDirective {
+  type: 'include';
+  path: string;
+  resolved?: OSFDocument;
 }`}
             </pre>
           </section>
@@ -191,6 +206,8 @@ fs.writeFileSync('output.xlsx', result.buffer);`}
   orientation?: 'portrait' | 'landscape';
   fontSize?: number;
   fontFamily?: string;
+  timeoutMs?: number;       // PDF rendering timeout (ms)
+  puppeteerArgs?: string[]; // Custom Puppeteer launch args
 }`}
             </pre>
 
