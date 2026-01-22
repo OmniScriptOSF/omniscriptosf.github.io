@@ -63,11 +63,11 @@ export default function DocsPage() {
           <DocCard
             icon={<Sparkle size={32} weight="duotone" />}
             title="v1.3 Features (Latest)"
-            description="Export parity and preview alignment"
+            description="Complete reference for all v1.3 capabilities"
             links={[
-              { text: 'v1.3 Release Notes', href: '/docs/releases/v1-3' },
-              { text: '@table Parity', href: '/docs/releases/v1-3' },
-              { text: 'Blockquote Styling', href: '/docs/releases/v1-3' }
+              { text: 'Complete v1.3 Guide', href: '/docs/v1-3-features' },
+              { text: 'All Active Features', href: '/docs/v1-3-features' },
+              { text: 'Release Notes', href: '/docs/releases/v1-3' }
             ]}
           />
 
