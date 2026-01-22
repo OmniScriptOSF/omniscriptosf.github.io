@@ -24,7 +24,7 @@ export default function Navigation({ dark = false }: NavigationProps) {
           <li><Link href="/#features" className="font-mono text-sm hover:underline">Features</Link></li>
           <li><Link href="/playground" className="font-mono text-sm hover:underline">Playground</Link></li>
           <li><Link href="/docs" className="font-mono text-sm hover:underline">Docs</Link></li>
-          <li><a href="https://github.com/OmniScriptOSF/omniscript-core" className="font-mono text-sm hover:underline" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://github.com/OmniScriptOSF" className="font-mono text-sm hover:underline" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://www.npmjs.com/package/omniscript-cli" className="font-mono text-sm hover:underline" target="_blank" rel="noopener noreferrer">NPM</a></li>
         </ul>
       </div>
