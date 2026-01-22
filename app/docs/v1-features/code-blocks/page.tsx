@@ -6,7 +6,6 @@
 'use client';
 
 import Navigation from '@/components/Navigation';
-import { Code, GameController, CheckCircle, Warning } from 'phosphor-react';
 
 export default function CodeBlocksPage() {
   return (
@@ -261,7 +260,7 @@ export default function CodeBlocksPage() {
             <div className="border-l-4 border-green-500 pl-4">
               <h4 className="font-bold mb-1">✅ Use Captions</h4>
               <p className="text-gray-300 text-sm">
-                Add captions to provide context: "Example usage", "Error handling", "Configuration", etc.
+                Add captions to provide context: &quot;Example usage&quot;, &quot;Error handling&quot;, &quot;Configuration&quot;, etc.
               </p>
             </div>
 

@@ -27,7 +27,7 @@ export default function V11ReleasePage() {
 
       <hr />
 
-      <h2>🎉 What's New</h2>
+      <h2>🎉 What&apos;s New</h2>
 
       <h3 id="strikethrough">✨ Strikethrough Text Formatting</h3>
       <p>Use <code>~~text~~</code> syntax for strikethrough formatting:</p>

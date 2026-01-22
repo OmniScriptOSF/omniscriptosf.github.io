@@ -6,7 +6,6 @@
 'use client';
 
 import Navigation from '@/components/Navigation';
-import { ChartBar, GameController } from 'phosphor-react';
 
 export default function ChartBlocksPage() {
   return (

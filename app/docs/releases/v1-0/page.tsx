@@ -6,7 +6,7 @@
 'use client';
 
 import Navigation from '@/components/Navigation';
-import { Rocket, ChartBar, FlowArrow, Code, CheckCircle, Warning, Star, Confetti } from 'phosphor-react';
+import { Rocket, CheckCircle, Warning, Star, Confetti } from 'phosphor-react';
 
 export default function V1ReleaseNotesPage() {
   return (
@@ -36,11 +36,11 @@ export default function V1ReleaseNotesPage() {
             </p>
           </section>
 
-          {/* What's New */}
+          {/* What&apos;s New */}
           <section className="mb-12">
             <h2 className="text-4xl font-bold mb-6 border-b-2 border-white pb-2 flex items-center gap-3">
               <Rocket size={36} weight="duotone" />
-              What's New
+              What&apos;s New
             </h2>
             
             {/* @chart blocks */}
@@ -273,7 +273,10 @@ export default function V1ReleaseNotesPage() {
               <h4 className="font-bold mb-2">Recommended Updates:</h4>
               <ol className="list-decimal list-inside space-y-2 text-gray-300">
                 <li>Update packages: <code className="bg-black px-2 py-1">npm update omniscript-*</code></li>
-                <li>Add version to @meta: <code className="bg-black px-2 py-1">version: "1.0";</code></li>
+                <li>
+                  Add version to @meta:{' '}
+                  <code className="bg-black px-2 py-1">version: &quot;1.0&quot;;</code>
+                </li>
                 <li>Explore new blocks (@chart, @diagram, @code)</li>
               </ol>
             </div>
@@ -340,11 +343,11 @@ export default function V1ReleaseNotesPage() {
             </div>
           </section>
 
-          {/* What's Next */}
+          {/* What&apos;s Next */}
           <section className="mb-12">
             <h2 className="text-4xl font-bold mb-6 border-b-2 border-white pb-2 flex items-center gap-3">
               <Star size={36} weight="duotone" />
-              What's Next (v1.1)
+              What&apos;s Next (v1.1)
             </h2>
             
             <div className="border-2 border-blue-500 p-6">
@@ -375,7 +378,7 @@ export default function V1ReleaseNotesPage() {
             <h2 className="text-4xl font-bold mb-6 border-b-2 border-white pb-2">Thank You</h2>
             <div className="bg-gray-900 p-6">
               <p className="text-xl text-gray-300 mb-4">
-                Thank you for using OmniScript Format! We're excited to see what you build with v1.0.
+                Thank you for using OmniScript Format! We&apos;re excited to see what you build with v1.0.
               </p>
               <p className="text-gray-300">
                 <strong>Happy documenting!</strong> 🚀

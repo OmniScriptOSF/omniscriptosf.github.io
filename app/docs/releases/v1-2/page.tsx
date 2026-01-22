@@ -145,7 +145,7 @@ export default function V12ReleasePage() {
             <div className="p-6 bg-gray-900 border-2 border-white">
               <h3 className="text-2xl font-bold mb-3">Type Safety</h3>
               <ul className="space-y-2 text-gray-300">
-                <li>• Zero 'any' types</li>
+                <li>• Zero &apos;any&apos; types</li>
                 <li>• Strict TypeScript mode</li>
                 <li>• exactOptionalPropertyTypes enabled</li>
                 <li>• Full type coverage</li>

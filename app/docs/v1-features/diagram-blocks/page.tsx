@@ -6,7 +6,6 @@
 'use client';
 
 import Navigation from '@/components/Navigation';
-import { FlowArrow, GameController } from 'phosphor-react';
 
 export default function DiagramBlocksPage() {
   return (

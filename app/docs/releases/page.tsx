@@ -6,7 +6,7 @@
 'use client';
 
 import Navigation from '@/components/Navigation';
-import { CheckCircle, Warning, RocketLaunch, GitBranch } from 'phosphor-react';
+import { CheckCircle } from 'phosphor-react';
 
 export default function ReleasesPage() {
   return (
@@ -37,7 +37,7 @@ export default function ReleasesPage() {
           </p>
           
           <div className="mb-4">
-            <h3 className="text-xl font-bold mb-2">✨ What's New</h3>
+            <h3 className="text-xl font-bold mb-2">✨ What&apos;s New</h3>
             <ul className="list-disc list-inside space-y-1 text-gray-300">
               <li>@table blocks - Markdown-style tables with captions, alignment, styling</li>
               <li>@include directive - Modular documents with file composition</li>
@@ -82,7 +82,7 @@ export default function ReleasesPage() {
           </p>
           
           <div className="mb-4">
-            <h3 className="text-xl font-bold mb-2">✨ What's New</h3>
+            <h3 className="text-xl font-bold mb-2">✨ What&apos;s New</h3>
             <ul className="list-disc list-inside space-y-1 text-gray-300">
               <li>@chart blocks - Data visualization with 5 chart types</li>
               <li>@diagram blocks - Flowcharts, sequences, Gantt, mindmaps</li>
@@ -167,7 +167,7 @@ export default function ReleasesPage() {
           </p>
           
           <div className="mb-4">
-            <h3 className="text-xl font-bold mb-2">✨ What's New</h3>
+            <h3 className="text-xl font-bold mb-2">✨ What&apos;s New</h3>
             <ul className="list-disc list-inside space-y-1 text-gray-300">
               <li>Strikethrough text support (~~text~~)</li>
               <li>Ordered lists and blockquotes</li>

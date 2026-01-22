@@ -120,7 +120,7 @@ Blocks: 2 (meta, doc)`}
         <section className="mb-12">
           <h2 className="text-3xl font-bold mb-4">Complete Example</h2>
           
-          <p className="mb-4">Here's a complete OSF document with all basic features:</p>
+          <p className="mb-4">Here&apos;s a complete OSF document with all basic features:</p>
           
           <div className="bg-gray-900 p-4 rounded border-2 border-gray-700 overflow-x-auto">
             <pre className="text-gray-300 font-mono text-sm">
@@ -169,7 +169,7 @@ Blocks: 2 (meta, doc)`}
 
         {/* Next Steps */}
         <section>
-          <h2 className="text-3xl font-bold mb-4">What's Next?</h2>
+          <h2 className="text-3xl font-bold mb-4">What&apos;s Next?</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a

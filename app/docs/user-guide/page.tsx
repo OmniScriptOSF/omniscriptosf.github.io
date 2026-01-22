@@ -253,12 +253,12 @@ export default function UserGuidePage() {
               </div>
 
               <div className="border-2 border-red-500 p-4">
-                <h3 className="font-bold text-white mb-2">❌ DON'T: Mix block types incorrectly</h3>
+                <h3 className="font-bold text-white mb-2">❌ DON&apos;T: Mix block types incorrectly</h3>
                 <p>Each block should contain only its appropriate properties.</p>
               </div>
 
               <div className="border-2 border-red-500 p-4">
-                <h3 className="font-bold text-white mb-2">❌ DON'T: Forget semicolons</h3>
+                <h3 className="font-bold text-white mb-2">❌ DON&apos;T: Forget semicolons</h3>
                 <p>All property assignments must end with a semicolon.</p>
               </div>
             </div>

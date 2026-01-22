@@ -7,7 +7,16 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { parse } from 'omniscript-parser';
+import Link from 'next/link';
+import {
+  parse,
+  type ContentBlock,
+  type OSFDocument,
+  type TextRun,
+  type Image as OSFImage,
+  type Link as OSFLink,
+  type MetaBlock
+} from 'omniscript-parser';
 import Navigation from '@/components/Navigation';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
@@ -84,9 +93,10 @@ export default function PlaygroundPage() {
       } else if (output === 'preview') {
         setResult(generatePreviewHTML(doc));
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       setOutput('errors');
-      setResult(error.message);
+      const message = error instanceof Error ? error.message : 'Unexpected error';
+      setResult(message);
     }
   };
 
@@ -124,8 +134,9 @@ export default function PlaygroundPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (error: any) {
-      alert(`Export error: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unexpected error';
+      alert(`Export error: ${message}`);
     } finally {
       setIsExporting(false);
     }
@@ -156,9 +167,12 @@ export default function PlaygroundPage() {
           <pre className="font-mono text-xs bg-black text-green-400 p-2">
 {apiBase || '/api/convert/{format}'}
           </pre>
-          <a href="/docs/getting-started/installation" className="font-mono text-xs text-blue-600 hover:underline font-bold">
+          <Link
+            href="/docs/getting-started/installation"
+            className="font-mono text-xs text-blue-600 hover:underline font-bold"
+          >
             → CLI still supported for batch exports
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -196,7 +210,7 @@ export default function PlaygroundPage() {
 
             <select
               value={output}
-              onChange={(e) => setOutput(e.target.value as any)}
+              onChange={(e) => setOutput(e.target.value as 'preview' | 'ast' | 'errors')}
               className="px-4 py-2 bg-white text-black border-2 border-black"
             >
               <option value="preview">HTML Preview</option>
@@ -255,7 +269,7 @@ export default function PlaygroundPage() {
             )}
             {!result && (
               <div className="text-gray-400 text-center py-20 font-mono">
-                Click "Parse & Preview" to see output
+                Click &quot;Parse &amp; Preview&quot; to see output
               </div>
             )}
           </div>
@@ -265,11 +279,11 @@ export default function PlaygroundPage() {
   );
 }
 
-function generatePreviewHTML(doc: any): string {
+function generatePreviewHTML(doc: OSFDocument): string {
   let html = '';
   
   // Find metadata
-  const metaBlock = doc.blocks.find((b: any) => b.type === 'meta');
+  const metaBlock = doc.blocks.find((block): block is MetaBlock => block.type === 'meta');
   if (metaBlock) {
     html += '<div class="mb-8 pb-4 border-b-2 border-gray-700">';
     html += `<h1 class="text-4xl font-bold mb-2">${metaBlock.props.title || 'Untitled'}</h1>`;
@@ -283,7 +297,7 @@ function generatePreviewHTML(doc: any): string {
   }
   
   // Render other blocks
-  doc.blocks.forEach((block: any) => {
+  doc.blocks.forEach((block) => {
     switch (block.type) {
       case 'doc':
         html += '<div class="mb-8 prose prose-invert max-w-none">';
@@ -329,17 +343,17 @@ function generatePreviewHTML(doc: any): string {
         }
         html += '<table class="min-w-full border border-gray-700 text-sm">';
         html += '<thead class="bg-gray-800"><tr>';
-        block.headers.forEach((header: string) => {
+        block.headers.forEach((header) => {
           html += `<th class="px-3 py-2 text-left font-semibold border border-gray-700">${escapeHTML(
             header
           )}</th>`;
         });
         html += '</tr></thead><tbody>';
-        block.rows.forEach((row: any, rowIndex: number) => {
+        block.rows.forEach((row, rowIndex) => {
           const rowClass =
             block.style === 'striped' && rowIndex % 2 === 1 ? ' bg-gray-800/60' : '';
           html += `<tr class="${rowClass}">`;
-          row.cells.forEach((cell: any) => {
+          row.cells.forEach((cell) => {
             html += `<td class="px-3 py-2 border border-gray-700">${escapeHTML(
               cell.text
             )}</td>`;
@@ -356,6 +370,9 @@ function generatePreviewHTML(doc: any): string {
         }
         html += `<pre class="bg-gray-800 p-4 rounded overflow-x-auto text-sm"><code class="language-${block.language}">${escapeHTML(block.code)}</code></pre>`;
         html += '</div>';
+        break;
+
+      default:
         break;
     }
   });
@@ -450,7 +467,7 @@ function convertMarkdownToHTML(text: string): string {
   return html;
 }
 
-function renderSlideContentHTML(contentBlocks: any[]): string {
+function renderSlideContentHTML(contentBlocks: ContentBlock[]): string {
   let html = '';
 
   for (const block of contentBlocks) {
@@ -485,24 +502,32 @@ function renderSlideContentHTML(contentBlocks: any[]): string {
       } else {
         html += `<p class="my-2">${renderRuns(block.content)}</p>`;
       }
+    } else if (block.type === 'code') {
+      html += `<pre class="bg-gray-800 p-4 rounded overflow-x-auto text-sm">${escapeHTML(
+        block.content
+      )}</pre>`;
+    } else if (block.type === 'image') {
+      html += `<img class="inline-block max-h-64" src="${escapeHTML(
+        block.url
+      )}" alt="${escapeHTML(block.alt)}" />`;
     }
   }
 
   return html;
 }
 
-function renderRuns(runs: any[]): string {
+function renderRuns(runs: TextRun[]): string {
   return runs
     .map((run) => {
       if (typeof run === 'string') {
         return escapeHTML(run);
       }
-      if (run.type === 'link') {
+      if (isLinkRun(run)) {
         const text = escapeHTML(run.text || '');
         const url = escapeHTML(run.url || '#');
         return `<a class="underline text-blue-400" href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
       }
-      if (run.type === 'image') {
+      if (isImageRun(run)) {
         const alt = escapeHTML(run.alt || '');
         const url = escapeHTML(run.url || '');
         return `<img class="inline-block max-h-32" src="${url}" alt="${alt}" />`;
@@ -517,15 +542,23 @@ function renderRuns(runs: any[]): string {
     .join('');
 }
 
-function runsToText(runs: any[]): string {
+function runsToText(runs: TextRun[]): string {
   return runs
     .map((run) => {
       if (typeof run === 'string') return run;
-      if (run.type === 'link') return run.text || '';
-      if (run.type === 'image') return run.alt || '';
+      if (isLinkRun(run)) return run.text || '';
+      if (isImageRun(run)) return run.alt || '';
       return run.text || '';
     })
     .join('');
+}
+
+function isLinkRun(run: TextRun): run is OSFLink {
+  return typeof run === 'object' && run !== null && 'type' in run && run.type === 'link';
+}
+
+function isImageRun(run: TextRun): run is OSFImage {
+  return typeof run === 'object' && run !== null && 'type' in run && run.type === 'image';
 }
 
 function renderInlineMarkdown(text: string): string {

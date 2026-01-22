@@ -81,8 +81,8 @@ export default function V12FeaturesPage() {
             <h3 className="text-2xl font-bold mb-4">Table Properties</h3>
             <ul className="space-y-3 text-gray-300">
               <li><strong>caption</strong>: Optional table title displayed above the table</li>
-              <li><strong>style</strong>: <code className="bg-black px-2 py-1">"bordered"</code>, <code className="bg-black px-2 py-1">"striped"</code>, or <code className="bg-black px-2 py-1">"minimal"</code></li>
-              <li><strong>alignment</strong>: Array of <code className="bg-black px-2 py-1">"left"</code>, <code className="bg-black px-2 py-1">"center"</code>, or <code className="bg-black px-2 py-1">"right"</code></li>
+              <li><strong>style</strong>: <code className="bg-black px-2 py-1">&quot;bordered&quot;</code>, <code className="bg-black px-2 py-1">&quot;striped&quot;</code>, or <code className="bg-black px-2 py-1">&quot;minimal&quot;</code></li>
+              <li><strong>alignment</strong>: Array of <code className="bg-black px-2 py-1">&quot;left&quot;</code>, <code className="bg-black px-2 py-1">&quot;center&quot;</code>, or <code className="bg-black px-2 py-1">&quot;right&quot;</code></li>
             </ul>
           </div>
 
@@ -316,7 +316,7 @@ export default function V12FeaturesPage() {
             </p>
             <ul className="space-y-2 text-gray-300">
               <li>• Table column counts must match header</li>
-              <li>• Alignment values must be "left", "center", or "right"</li>
+              <li>• Alignment values must be &quot;left&quot;, &quot;center&quot;, or &quot;right&quot;</li>
               <li>• Number parsing is more strict</li>
             </ul>
             <p className="text-gray-300 mt-4">

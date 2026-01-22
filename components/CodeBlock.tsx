@@ -36,7 +36,7 @@ export default function CodeBlock({
         )}
 
         <pre className="flex-1 p-6 overflow-x-auto">
-          <code className="font-mono text-sm text-gray-100">
+          <code className="font-mono text-sm text-gray-100" data-language={language}>
             {code}
           </code>
         </pre>

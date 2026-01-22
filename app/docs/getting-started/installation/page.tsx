@@ -71,7 +71,7 @@ export default function InstallationPage() {
           <ol className="list-decimal pl-6 mb-4 space-y-2">
             <li>Open Visual Studio Code</li>
             <li>Press <code className="bg-gray-800 px-2 py-1 rounded">Ctrl+Shift+X</code> (Windows/Linux) or <code className="bg-gray-800 px-2 py-1 rounded">Cmd+Shift+X</code> (Mac)</li>
-            <li>Search for "OmniScript Format"</li>
+            <li>Search for &quot;OmniScript Format&quot;</li>
             <li>Click Install</li>
           </ol>
 
