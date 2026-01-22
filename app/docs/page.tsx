@@ -142,7 +142,7 @@ export default function DocsPage() {
             title="Resources"
             description="Additional learning materials"
             links={[
-              { text: 'Specification v1.1 (Base)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.1/osf-spec.md' },
+              { text: 'Specification v1.2 (Latest)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.2/README.md' },
               { text: 'v1.2 Features Guide', href: '/docs/v1-2-features' },
               { text: 'GitHub Repository', href: 'https://github.com/OmniScriptOSF/omniscript-core' },
               { text: 'Editor Support (Roadmap)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/roadmap.md' }
