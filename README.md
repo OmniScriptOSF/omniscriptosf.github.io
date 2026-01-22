@@ -14,27 +14,28 @@ Built with the **NOIR design system** - a terminal-aesthetic design language fea
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js 14 (Static Site Generation)
+- **Framework**: Next.js 15 (Static Site Generation)
 - **Language**: TypeScript 5.x (strict mode)
 - **Styling**: Tailwind CSS 3.4+
 - **Fonts**: JetBrains Mono, Inter
-- **Package Manager**: pnpm
+- **Package Manager**: Bun
 - **Deployment**: GitHub Pages
+- **Playground Exports**: External API (`omniscript-api`)
 
 ## 🚀 Development
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Start development server
-pnpm run dev
+bun run dev
 
 # Build for production
-pnpm run build
+bun run build
 
 # Preview production build
-pnpm run start
+bun run start
 ```
 
 Visit `http://localhost:3000` to see the site.
@@ -56,6 +57,13 @@ omniscript-site/
     └── workflows/
         └── deploy.yml      # GitHub Pages deployment
 ```
+
+## 🔌 Playground Exports
+
+Playground export buttons call a separate backend API service. Set the API base URL via
+`NEXT_PUBLIC_OSF_API_BASE` (see `.env.production`).
+
+The backend code now lives in a separate private repo: `OmniScriptOSF/omniscript-api`.
 
 ## 🌐 Deployment
 
