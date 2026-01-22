@@ -7,15 +7,12 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import {
   parse,
   type ContentBlock,
+  type MetaBlock,
   type OSFDocument,
   type TextRun,
-  type Image as OSFImage,
-  type Link as OSFLink,
-  type MetaBlock
 } from 'omniscript-parser';
 import Navigation from '@/components/Navigation';
 
@@ -93,9 +90,9 @@ export default function PlaygroundPage() {
       } else if (output === 'preview') {
         setResult(generatePreviewHTML(doc));
       }
-    } catch (error: unknown) {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to parse document';
       setOutput('errors');
-      const message = error instanceof Error ? error.message : 'Unexpected error';
       setResult(message);
     }
   };
@@ -134,8 +131,8 @@ export default function PlaygroundPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Unexpected error';
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Export failed';
       alert(`Export error: ${message}`);
     } finally {
       setIsExporting(false);
@@ -167,12 +164,9 @@ export default function PlaygroundPage() {
           <pre className="font-mono text-xs bg-black text-green-400 p-2">
 {apiBase || '/api/convert/{format}'}
           </pre>
-          <Link
-            href="/docs/getting-started/installation"
-            className="font-mono text-xs text-blue-600 hover:underline font-bold"
-          >
+          <a href="/docs/getting-started/installation" className="font-mono text-xs text-blue-600 hover:underline font-bold">
             → CLI still supported for batch exports
-          </Link>
+          </a>
         </div>
       </div>
 
@@ -210,7 +204,12 @@ export default function PlaygroundPage() {
 
             <select
               value={output}
-              onChange={(e) => setOutput(e.target.value as 'preview' | 'ast' | 'errors')}
+              onChange={(e) => {
+                const nextValue = e.target.value;
+                if (nextValue === 'preview' || nextValue === 'ast' || nextValue === 'errors') {
+                  setOutput(nextValue);
+                }
+              }}
               className="px-4 py-2 bg-white text-black border-2 border-black"
             >
               <option value="preview">HTML Preview</option>
@@ -269,7 +268,7 @@ export default function PlaygroundPage() {
             )}
             {!result && (
               <div className="text-gray-400 text-center py-20 font-mono">
-                Click &quot;Parse &amp; Preview&quot; to see output
+                Click &quot;Parse & Preview&quot; to see output
               </div>
             )}
           </div>
@@ -286,18 +285,20 @@ function generatePreviewHTML(doc: OSFDocument): string {
   const metaBlock = doc.blocks.find((block): block is MetaBlock => block.type === 'meta');
   if (metaBlock) {
     html += '<div class="mb-8 pb-4 border-b-2 border-gray-700">';
-    html += `<h1 class="text-4xl font-bold mb-2">${metaBlock.props.title || 'Untitled'}</h1>`;
+    html += `<h1 class="text-4xl font-bold mb-2">${escapeHTML(
+      String(metaBlock.props.title || 'Untitled')
+    )}</h1>`;
     if (metaBlock.props.author) {
-      html += `<p class="text-gray-400">By ${metaBlock.props.author}</p>`;
+      html += `<p class="text-gray-400">By ${escapeHTML(String(metaBlock.props.author))}</p>`;
     }
     if (metaBlock.props.date) {
-      html += `<p class="text-gray-400">${metaBlock.props.date}</p>`;
+      html += `<p class="text-gray-400">${escapeHTML(String(metaBlock.props.date))}</p>`;
     }
     html += '</div>';
   }
   
   // Render other blocks
-  doc.blocks.forEach((block) => {
+  doc.blocks.forEach(block => {
     switch (block.type) {
       case 'doc':
         html += '<div class="mb-8 prose prose-invert max-w-none">';
@@ -309,11 +310,7 @@ function generatePreviewHTML(doc: OSFDocument): string {
         html += '<div class="mb-8 p-6 border-2 border-blue-500 bg-blue-900 bg-opacity-20 rounded">';
         html += `<h2 class="text-2xl font-bold mb-4">${block.title || 'Slide'}</h2>`;
         if (block.content && block.content.length > 0) {
-          html += renderSlideContentHTML(block.content);
-        } else if (block.bullets && block.bullets.length > 0) {
-          html += '<ul class="list-disc pl-6 my-2">';
-          html += block.bullets.map((item) => `<li>${escapeHTML(item)}</li>`).join('');
-          html += '</ul>';
+          html += convertMarkdownToHTML(contentToMarkdown(block.content));
         }
         html += '</div>';
         break;
@@ -339,33 +336,6 @@ function generatePreviewHTML(doc: OSFDocument): string {
         html += `<pre class="text-sm bg-black bg-opacity-50 p-4 rounded overflow-x-auto">${block.code}</pre>`;
         html += '</div>';
         break;
-
-      case 'table':
-        html += '<div class="mb-8 overflow-x-auto">';
-        if (block.caption) {
-          html += `<p class="text-sm text-gray-400 italic mb-2">${block.caption}</p>`;
-        }
-        html += '<table class="min-w-full border border-gray-700 text-sm">';
-        html += '<thead class="bg-gray-800"><tr>';
-        block.headers.forEach((header) => {
-          html += `<th class="px-3 py-2 text-left font-semibold border border-gray-700">${escapeHTML(
-            header
-          )}</th>`;
-        });
-        html += '</tr></thead><tbody>';
-        block.rows.forEach((row, rowIndex) => {
-          const rowClass =
-            block.style === 'striped' && rowIndex % 2 === 1 ? ' bg-gray-800/60' : '';
-          html += `<tr class="${rowClass}">`;
-          row.cells.forEach((cell) => {
-            html += `<td class="px-3 py-2 border border-gray-700">${escapeHTML(
-              cell.text
-            )}</td>`;
-          });
-          html += '</tr>';
-        });
-        html += '</tbody></table></div>';
-        break;
       
       case 'osfcode':
         html += '<div class="mb-8">';
@@ -375,201 +345,64 @@ function generatePreviewHTML(doc: OSFDocument): string {
         html += `<pre class="bg-gray-800 p-4 rounded overflow-x-auto text-sm"><code class="language-${block.language}">${escapeHTML(block.code)}</code></pre>`;
         html += '</div>';
         break;
-
-      default:
-        break;
     }
   });
   
   return html;
 }
 
+function contentToMarkdown(content: ContentBlock[]): string {
+  return content
+    .map(block => {
+      switch (block.type) {
+        case 'paragraph':
+          return block.content.map(extractText).join('');
+        case 'unordered_list':
+          return block.items.map(item => `- ${item.content.map(extractText).join('')}`).join('\n');
+        case 'ordered_list':
+          return block.items
+            .map((item, index) => `${index + 1}. ${item.content.map(extractText).join('')}`)
+            .join('\n');
+        case 'blockquote':
+          return block.content
+            .map(paragraph => `> ${paragraph.content.map(extractText).join('')}`)
+            .join('\n');
+        case 'code':
+          return `\`\`\`\n${block.content}\n\`\`\``;
+        case 'image':
+          return block.alt ? `![${block.alt}](${block.url})` : `![](${block.url})`;
+        default:
+          return '';
+      }
+    })
+    .filter(Boolean)
+    .join('\n');
+}
+
+function extractText(run: TextRun): string {
+  if (typeof run === 'string') return run;
+  if ('type' in run) {
+    if (run.type === 'link') return run.text;
+    if (run.type === 'image') return run.alt || '';
+  }
+  if ('text' in run) return run.text;
+  return '';
+}
+
 function convertMarkdownToHTML(text: string): string {
-  const lines = text.split(/\r?\n/);
-  let html = '';
-  let paragraph: string[] = [];
-  let listItems: string[] = [];
-  let blockquoteLines: string[] = [];
-
-  const flushParagraph = () => {
-    if (paragraph.length > 0) {
-      html += `<p class="my-2">${renderInlineMarkdown(paragraph.join(' '))}</p>`;
-      paragraph = [];
-    }
-  };
-
-  const flushList = () => {
-    if (listItems.length > 0) {
-      html += `<ul class="list-disc pl-6 my-2">${listItems
-        .map((item) => `<li>${renderInlineMarkdown(item)}</li>`)
-        .join('')}</ul>`;
-      listItems = [];
-    }
-  };
-
-  const flushBlockquote = () => {
-    if (blockquoteLines.length > 0) {
-      html += `<blockquote class="border-l-4 border-gray-600 pl-4 italic text-gray-300 my-3">${blockquoteLines
-        .map((line) => `<p>${renderInlineMarkdown(line)}</p>`)
-        .join('')}</blockquote>`;
-      blockquoteLines = [];
-    }
-  };
-
-  for (const rawLine of lines) {
-    const line = rawLine.trim();
-    if (!line) {
-      flushParagraph();
-      flushList();
-      flushBlockquote();
-      continue;
-    }
-
-    const headingMatch = /^(#{1,3})\s+(.+)$/.exec(line);
-    if (headingMatch) {
-      flushParagraph();
-      flushList();
-      flushBlockquote();
-      const level = headingMatch[1].length;
-      const size =
-        level === 1 ? 'text-3xl' : level === 2 ? 'text-2xl' : 'text-xl';
-      html += `<h${level} class="${size} font-bold mt-6 mb-3">${renderInlineMarkdown(
-        headingMatch[2]
-      )}</h${level}>`;
-      continue;
-    }
-
-    const listMatch = /^[-*]\s+(.+)$/.exec(line);
-    if (listMatch) {
-      flushParagraph();
-      flushBlockquote();
-      listItems.push(listMatch[1]);
-      continue;
-    }
-
-    const quoteMatch = /^>\s?(.+)$/.exec(line);
-    if (quoteMatch) {
-      flushParagraph();
-      flushList();
-      blockquoteLines.push(quoteMatch[1]);
-      continue;
-    }
-
-    if (listItems.length > 0) {
-      flushList();
-    }
-    if (blockquoteLines.length > 0) {
-      flushBlockquote();
-    }
-    paragraph.push(line);
-  }
-
-  flushParagraph();
-  flushList();
-  flushBlockquote();
-
-  return html;
-}
-
-function renderSlideContentHTML(contentBlocks: ContentBlock[]): string {
-  let html = '';
-
-  for (const block of contentBlocks) {
-    if (block.type === 'unordered_list') {
-      html += '<ul class="list-disc pl-6 my-2">';
-      for (const item of block.items) {
-        html += `<li>${renderRuns(item.content)}</li>`;
-      }
-      html += '</ul>';
-    } else if (block.type === 'ordered_list') {
-      html += '<ol class="list-decimal pl-6 my-2">';
-      for (const item of block.items) {
-        html += `<li>${renderRuns(item.content)}</li>`;
-      }
-      html += '</ol>';
-    } else if (block.type === 'blockquote') {
-      html += '<blockquote class="border-l-4 border-blue-500 pl-4 italic text-gray-300 my-3">';
-      for (const paragraph of block.content) {
-        html += `<p>${renderRuns(paragraph.content)}</p>`;
-      }
-      html += '</blockquote>';
-    } else if (block.type === 'paragraph') {
-      const rawText = runsToText(block.content).trim();
-      const headingMatch = /^(#{1,3})\s+(.+)$/.exec(rawText);
-      if (headingMatch) {
-        const level = headingMatch[1].length;
-        const size =
-          level === 1 ? 'text-3xl' : level === 2 ? 'text-2xl' : 'text-xl';
-        html += `<h${level} class="${size} font-bold mt-4 mb-2">${renderInlineMarkdown(
-          headingMatch[2]
-        )}</h${level}>`;
-      } else {
-        html += `<p class="my-2">${renderRuns(block.content)}</p>`;
-      }
-    } else if (block.type === 'code') {
-      html += `<pre class="bg-gray-800 p-4 rounded overflow-x-auto text-sm">${escapeHTML(
-        block.content
-      )}</pre>`;
-    } else if (block.type === 'image') {
-      html += `<img class="inline-block max-h-64" src="${escapeHTML(
-        block.url
-      )}" alt="${escapeHTML(block.alt)}" />`;
-    }
-  }
-
-  return html;
-}
-
-function renderRuns(runs: TextRun[]): string {
-  return runs
-    .map((run) => {
-      if (typeof run === 'string') {
-        return escapeHTML(run);
-      }
-      if (isLinkRun(run)) {
-        const text = escapeHTML(run.text || '');
-        const url = escapeHTML(run.url || '#');
-        return `<a class="underline text-blue-400" href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-      }
-      if (isImageRun(run)) {
-        const alt = escapeHTML(run.alt || '');
-        const url = escapeHTML(run.url || '');
-        return `<img class="inline-block max-h-32" src="${url}" alt="${alt}" />`;
-      }
-      let content = escapeHTML(run.text || '');
-      if (run.bold) content = `<strong>${content}</strong>`;
-      if (run.italic) content = `<em>${content}</em>`;
-      if (run.underline) content = `<span class="underline">${content}</span>`;
-      if (run.strike) content = `<span class="line-through">${content}</span>`;
-      return content;
-    })
-    .join('');
-}
-
-function runsToText(runs: TextRun[]): string {
-  return runs
-    .map((run) => {
-      if (typeof run === 'string') return run;
-      if (isLinkRun(run)) return run.text || '';
-      if (isImageRun(run)) return run.alt || '';
-      return run.text || '';
-    })
-    .join('');
-}
-
-function isLinkRun(run: TextRun): run is OSFLink {
-  return typeof run === 'object' && run !== null && 'type' in run && run.type === 'link';
-}
-
-function isImageRun(run: TextRun): run is OSFImage {
-  return typeof run === 'object' && run !== null && 'type' in run && run.type === 'image';
-}
-
-function renderInlineMarkdown(text: string): string {
-  let html = escapeHTML(text);
+  let html = text;
+  
+  html = html.replace(/^### (.+)$/gm, '<h3 class="text-xl font-bold mt-4 mb-2">$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2 class="text-2xl font-bold mt-6 mb-3">$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1 class="text-3xl font-bold mt-8 mb-4">$1</h1>');
+  
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
   html = html.replace(/`(.+?)`/g, '<code class="bg-gray-800 px-1 rounded">$1</code>');
+  
+  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>[\s\S]*<\/li>)/, '<ul class="list-disc pl-6 my-2">$1</ul>');
+  
   return html;
 }
 
