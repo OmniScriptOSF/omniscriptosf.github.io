@@ -308,7 +308,7 @@ function generatePreviewHTML(doc: OSFDocument): string {
       case 'slide':
         html += '<div class="mb-8 p-6 border-2 border-blue-500 bg-blue-900 bg-opacity-20 rounded">';
         html += `<h2 class="text-2xl font-bold mb-4">${block.title || 'Slide'}</h2>`;
-        if (block.content) {
+        if (block.content && block.content.length > 0) {
           html += renderSlideContentHTML(block.content);
         } else if (block.bullets && block.bullets.length > 0) {
           html += '<ul class="list-disc pl-6 my-2">';
