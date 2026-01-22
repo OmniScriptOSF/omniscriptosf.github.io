@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
-const isServerBuild = process.env.NEXT_BUILD_TARGET === 'server';
-
 const nextConfig = {
-  ...(isServerBuild ? {} : { output: 'export' }),
+  output: 'export',
   images: {
     unoptimized: true,
   },
   basePath: '',
-  trailingSlash: !isServerBuild,
+  trailingSlash: true,
   webpack: (config, { isServer }) => {
     // For client-side builds, disable Node.js modules (fs, path, etc.)
     // Parser uses conditional require('fs') which gracefully fails in browser
@@ -20,6 +18,6 @@ const nextConfig = {
     }
     return config;
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
