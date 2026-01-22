@@ -73,6 +73,7 @@ export default function PlaygroundPage() {
   const [output, setOutput] = useState<'preview' | 'ast' | 'errors'>('preview');
   const [result, setResult] = useState('');
   const [isExporting, setIsExporting] = useState(false);
+  const apiBase = (process.env.NEXT_PUBLIC_OSF_API_BASE || '').replace(/\/$/, '');
 
   const handleParse = () => {
     try {
@@ -92,14 +93,26 @@ export default function PlaygroundPage() {
   const handleExport = async (format: 'pdf' | 'docx' | 'pptx' | 'xlsx') => {
     setIsExporting(true);
     try {
-      const response = await fetch(`/api/convert/${format}`, {
+      const apiUrl = apiBase
+        ? `${apiBase}/api/convert/${format}`
+        : `/api/convert/${format}`;
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ osfCode: code, theme: 'corporate' })
       });
       
       if (!response.ok) {
-        throw new Error(`Export failed: ${response.statusText}`);
+        let message = response.statusText;
+        try {
+          const data = await response.json();
+          if (data?.error) {
+            message = data.error;
+          }
+        } catch {
+          // ignore parse errors
+        }
+        throw new Error(`Export failed: ${message}`);
       }
       
       const blob = await response.blob();
@@ -128,27 +141,23 @@ export default function PlaygroundPage() {
         <p className="text-sm text-gray-600 font-mono">Experiment with OSF syntax and see live preview</p>
       </div>
 
-      {/* Coming Soon Banner */}
-      <div className="bg-yellow-100 border-2 border-yellow-500 p-6 m-6">
-        <h2 className="font-mono font-bold text-xl text-yellow-900 mb-3">
-          🚧 Export Functionality: Coming Soon
+      {/* Export Status Banner */}
+      <div className="bg-green-100 border-2 border-green-600 p-6 m-6">
+        <h2 className="font-mono font-bold text-xl text-green-900 mb-3">
+          ✅ Export Functionality: Enabled
         </h2>
-        <p className="font-mono text-sm text-yellow-800 mb-3">
-          The playground currently shows <strong>live preview and AST output only</strong>. 
-          Server-side export to PDF/DOCX/PPTX/XLSX requires deployment to Vercel/Netlify.
+        <p className="font-mono text-sm text-green-900 mb-3">
+          Server-side export is live. You can now export OSF to PDF/DOCX/PPTX/XLSX directly from the playground.
         </p>
-        <div className="bg-yellow-200 p-3 border border-yellow-600">
-          <p className="font-mono text-xs text-yellow-900 font-bold mb-2">
-            ✅ GET FULL EXPORT NOW - Use the CLI:
+        <div className="bg-green-200 p-3 border border-green-700">
+          <p className="font-mono text-xs text-green-900 font-bold mb-2">
+            API Endpoint:
           </p>
-          <pre className="font-mono text-xs bg-black text-green-400 p-2 mb-2">
-npm install -g omniscript-cli
-          </pre>
           <pre className="font-mono text-xs bg-black text-green-400 p-2">
-osf render document.osf --format pdf
+{apiBase || '/api/convert/{format}'}
           </pre>
           <a href="/docs/getting-started/installation" className="font-mono text-xs text-blue-600 hover:underline font-bold">
-            → View installation guide
+            → CLI still supported for batch exports
           </a>
         </div>
       </div>
