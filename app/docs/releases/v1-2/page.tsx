@@ -16,8 +16,8 @@ export default function V12ReleasePage() {
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
             <h1 className="text-5xl font-bold">v1.2.0 Release Notes</h1>
-            <span className="px-4 py-2 bg-green-500 text-black text-lg font-bold">
-              LATEST
+            <span className="px-4 py-2 bg-gray-700 text-white text-lg font-bold">
+              STABLE
             </span>
           </div>
           <p className="text-xl text-gray-300">

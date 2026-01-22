@@ -63,7 +63,7 @@ export default function DocsPage() {
           {/* v1.2 Features */}
           <DocCard
             icon={<Sparkle size={32} weight="duotone" />}
-            title="v1.2 Features (NEW)"
+            title="v1.2 Features"
             description="Tables, Includes & Enterprise Security"
             links={[
               { text: 'Complete v1.2 Guide', href: '/docs/v1-2-features' },
@@ -128,7 +128,8 @@ export default function DocsPage() {
             title="Releases"
             description="Release notes and changelogs"
             links={[
-              { text: 'v1.2 Release Notes (Latest)', href: '/docs/releases/v1-2' },
+              { text: 'v1.3 Release Notes (Latest)', href: '/docs/releases/v1-3' },
+              { text: 'v1.2 Release Notes', href: '/docs/releases/v1-2' },
               { text: 'v1.1 Release Notes', href: '/docs/releases/v1-1' },
               { text: 'v1.0 Release Notes', href: '/docs/releases/v1-0' },
               { text: 'All Releases', href: '/docs/releases' },

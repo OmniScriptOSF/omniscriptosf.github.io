@@ -20,10 +20,10 @@ export default function Home() {
   Our Q4 performance exceeded expectations with **20% revenue growth**
   and significant improvements in customer retention.
   
-  ## NEW in v1.2 🎉
-  - **@table blocks** - Markdown-style tables
-  - **@include** - Modular document composition
-  - Enhanced security (Grade A+)
+  ## NEW in v1.3 🎉
+  - **@table export parity** - Tables render across PDF/DOCX/PPTX/XLSX
+  - **Blockquote styling** - Consistent quotes in exports & preview
+  - Playground export/preview alignment
 }
 
 @table {
@@ -73,7 +73,7 @@ export default function Home() {
       <section className="min-h-screen flex items-center justify-center bg-noir-white pt-20">
         <div className="container-noir text-center py-20">
           <div className="inline-block px-4 py-2 bg-green-100 border-2 border-green-600 mb-8">
-            <span className="font-mono text-sm font-bold text-green-800">v1.2.0 • Tables, Includes & Security A+</span>
+            <span className="font-mono text-sm font-bold text-green-800">v1.3.0 • Table exports & blockquote styling</span>
           </div>
 
           <h1 className="font-sans text-display-xl mb-8 tracking-tight">
@@ -248,7 +248,7 @@ export default function Home() {
               <Terminal>
                 <div className="flex items-center gap-2">
                   <span className="text-gray-500">$</span>
-                  <span>npm install -g omniscript-cli@1.2.1</span>
+                  <span>npm install -g omniscript-cli@1.3.0</span>
                 </div>
               </Terminal>
             </div>
@@ -314,9 +314,9 @@ export default function Home() {
             <div>
               <div className="font-mono font-bold text-sm mb-4">Packages</div>
               <ul className="space-y-2 font-mono text-sm text-gray-400">
-                <li><span className="hover:text-noir-white">omniscript-parser@1.2.0</span></li>
-                <li><span className="hover:text-noir-white">omniscript-cli@1.2.1</span></li>
-                <li><span className="hover:text-noir-white">omniscript-converters@1.2.0</span></li>
+                <li><span className="hover:text-noir-white">omniscript-parser@1.3.0</span></li>
+                <li><span className="hover:text-noir-white">omniscript-cli@1.3.0</span></li>
+                <li><span className="hover:text-noir-white">omniscript-converters@1.3.0</span></li>
               </ul>
             </div>
           </div>
