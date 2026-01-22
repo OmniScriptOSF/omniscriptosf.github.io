@@ -310,6 +310,10 @@ function generatePreviewHTML(doc: OSFDocument): string {
         html += `<h2 class="text-2xl font-bold mb-4">${block.title || 'Slide'}</h2>`;
         if (block.content) {
           html += renderSlideContentHTML(block.content);
+        } else if (block.bullets && block.bullets.length > 0) {
+          html += '<ul class="list-disc pl-6 my-2">';
+          html += block.bullets.map((item) => `<li>${escapeHTML(item)}</li>`).join('');
+          html += '</ul>';
         }
         html += '</div>';
         break;
