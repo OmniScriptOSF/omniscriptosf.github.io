@@ -1,10 +1,20 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import {
+  parse,
+  type ContentBlock,
+  type Image as OSFImage,
+  type Link as OSFLink,
+  type MetaBlock,
+  type OSFDocument,
+  type TextRun
+} from 'omniscript-parser';
 
 import Terminal from '@/components/Terminal'
 import CodeBlock from '@/components/CodeBlock'
-import { FileText, Robot, ArrowsClockwise, ChartBar, PaintBrush, Lightning, FilePdf, PresentationChart, FileXls } from 'phosphor-react';
+import { FileText, Robot, ArrowsClockwise, ChartBar, PaintBrush, Lightning, FilePdf, PresentationChart, FileXls, PuzzlePiece } from 'phosphor-react';
 
 export default function Home() {
   const exampleOSF = `@meta {
@@ -49,6 +59,17 @@ export default function Home() {
 }
 
 @include { path: "./sections/financial-details.osf"; }`
+
+  const [exampleView, setExampleView] = useState<'editor' | 'preview'>('editor');
+  const examplePreview = useMemo(() => {
+    try {
+      const document = parse(exampleOSF);
+      return generatePreviewHTML(document);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Preview error';
+      return `<div class="text-red-600 font-mono">Preview error: ${escapeHTML(message)}</div>`;
+    }
+  }, [exampleOSF]);
 
   return (
     <div className="min-h-screen">
@@ -188,6 +209,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Claude Code Plugin */}
+      <section className="py-20 bg-noir-white">
+        <div className="container-noir">
+          <div className="border-2 border-noir-black p-8 bg-yellow-50">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <PuzzlePiece size={32} weight="duotone" />
+                  <h3 className="font-mono text-2xl font-bold">Claude Code Plugin</h3>
+                </div>
+                <p className="font-mono text-body-sm text-gray-700 max-w-2xl">
+                  Install the OmniScript Claude Code plugin to generate, lint, and export OSF directly
+                  inside Claude. Perfect for rapid document workflows and agent automation.
+                </p>
+              </div>
+              <a
+                href="https://github.com/OmniScriptOSF/omniscript-claude-plugin"
+                className="btn-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Plugin →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Example Section */}
       <section className="py-24 bg-noir-white">
         <div className="container-noir">
@@ -199,11 +248,48 @@ export default function Home() {
           </p>
 
           <div className="max-w-4xl mx-auto">
-            <CodeBlock
-              code={exampleOSF}
-              title="business-report.osf"
-              showLineNumbers={true}
-            />
+            <div className="flex items-center justify-between mb-4">
+              <div className="font-mono text-sm text-gray-500">Example OSF</div>
+              <div className="inline-flex border-2 border-black bg-white">
+                <button
+                  type="button"
+                  onClick={() => setExampleView('editor')}
+                  className={`px-4 py-2 font-mono text-xs uppercase tracking-wide ${
+                    exampleView === 'editor'
+                      ? 'bg-black text-white'
+                      : 'bg-white text-black hover:bg-gray-100'
+                  }`}
+                >
+                  Editor
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setExampleView('preview')}
+                  className={`px-4 py-2 font-mono text-xs uppercase tracking-wide ${
+                    exampleView === 'preview'
+                      ? 'bg-black text-white'
+                      : 'bg-white text-black hover:bg-gray-100'
+                  }`}
+                >
+                  Preview
+                </button>
+              </div>
+            </div>
+
+            {exampleView === 'editor' ? (
+              <CodeBlock
+                code={exampleOSF}
+                title="business-report.osf"
+                showLineNumbers={true}
+              />
+            ) : (
+              <div className="border-2 border-black bg-white p-6">
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: examplePreview }}
+                />
+              </div>
+            )}
 
             <div className="mt-12 grid md:grid-cols-3 gap-4">
               <div className="card text-center">
@@ -328,4 +414,261 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+function generatePreviewHTML(doc: OSFDocument): string {
+  let html = '';
+  const metaBlock = doc.blocks.find((block): block is MetaBlock => block.type === 'meta');
+
+  if (metaBlock) {
+    html += '<div class="mb-6 pb-4 border-b-2 border-gray-200">';
+    html += `<h1 class="text-3xl font-bold mb-2">${escapeHTML(String(metaBlock.props.title || 'Untitled'))}</h1>`;
+    if (metaBlock.props.author) {
+      html += `<p class="text-gray-500">By ${escapeHTML(String(metaBlock.props.author))}</p>`;
+    }
+    if (metaBlock.props.date) {
+      html += `<p class="text-gray-500">${escapeHTML(String(metaBlock.props.date))}</p>`;
+    }
+    html += '</div>';
+  }
+
+  for (const block of doc.blocks) {
+    switch (block.type) {
+      case 'doc':
+        html += '<div class="mb-6">';
+        html += convertMarkdownToHTML(block.content);
+        html += '</div>';
+        break;
+      case 'slide':
+        html += '<div class="mb-6 p-4 border-2 border-gray-200 bg-gray-50">';
+        html += `<h2 class="text-xl font-bold mb-3">${escapeHTML(block.title || 'Slide')}</h2>`;
+        if (block.content) {
+          html += renderSlideContentHTML(block.content);
+        } else if (block.bullets && block.bullets.length > 0) {
+          html += '<ul class="list-disc pl-6 my-2">';
+          html += block.bullets.map((item) => `<li>${escapeHTML(item)}</li>`).join('');
+          html += '</ul>';
+        }
+        html += '</div>';
+        break;
+      case 'table':
+        html += '<div class="mb-6 overflow-x-auto">';
+        if (block.caption) {
+          html += `<p class="text-sm text-gray-500 italic mb-2">${escapeHTML(block.caption)}</p>`;
+        }
+        html += '<table class="min-w-full border border-gray-200 text-sm">';
+        html += '<thead class="bg-gray-100"><tr>';
+        block.headers.forEach((header) => {
+          html += `<th class="px-3 py-2 text-left font-semibold border border-gray-200">${escapeHTML(
+            header
+          )}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+        block.rows.forEach((row, rowIndex) => {
+          const rowClass =
+            block.style === 'striped' && rowIndex % 2 === 1 ? ' bg-gray-50' : '';
+          html += `<tr class="${rowClass}">`;
+          row.cells.forEach((cell) => {
+            html += `<td class="px-3 py-2 border border-gray-200">${escapeHTML(
+              cell.text
+            )}</td>`;
+          });
+          html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        break;
+      default:
+        break;
+    }
+  }
+
+  return html;
+}
+
+function convertMarkdownToHTML(text: string): string {
+  const lines = text.split(/\r?\n/);
+  let html = '';
+  let paragraph: string[] = [];
+  let listItems: string[] = [];
+  let blockquoteLines: string[] = [];
+
+  const flushParagraph = () => {
+    if (paragraph.length > 0) {
+      html += `<p class="my-2">${renderInlineMarkdown(paragraph.join(' '))}</p>`;
+      paragraph = [];
+    }
+  };
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      html += `<ul class="list-disc pl-6 my-2">${listItems
+        .map((item) => `<li>${renderInlineMarkdown(item)}</li>`)
+        .join('')}</ul>`;
+      listItems = [];
+    }
+  };
+
+  const flushBlockquote = () => {
+    if (blockquoteLines.length > 0) {
+      html += `<blockquote class="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-3">${blockquoteLines
+        .map((line) => `<p>${renderInlineMarkdown(line)}</p>`)
+        .join('')}</blockquote>`;
+      blockquoteLines = [];
+    }
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) {
+      flushParagraph();
+      flushList();
+      flushBlockquote();
+      continue;
+    }
+
+    const headingMatch = /^(#{1,3})\s+(.+)$/.exec(line);
+    if (headingMatch) {
+      flushParagraph();
+      flushList();
+      flushBlockquote();
+      const level = headingMatch[1].length;
+      const size = level === 1 ? 'text-2xl' : level === 2 ? 'text-xl' : 'text-lg';
+      html += `<h${level} class="${size} font-bold mt-4 mb-2">${renderInlineMarkdown(
+        headingMatch[2]
+      )}</h${level}>`;
+      continue;
+    }
+
+    const listMatch = /^[-*]\s+(.+)$/.exec(line);
+    if (listMatch) {
+      flushParagraph();
+      flushBlockquote();
+      listItems.push(listMatch[1]);
+      continue;
+    }
+
+    const quoteMatch = /^>\s?(.+)$/.exec(line);
+    if (quoteMatch) {
+      flushParagraph();
+      flushList();
+      blockquoteLines.push(quoteMatch[1]);
+      continue;
+    }
+
+    if (listItems.length > 0) {
+      flushList();
+    }
+    if (blockquoteLines.length > 0) {
+      flushBlockquote();
+    }
+    paragraph.push(line);
+  }
+
+  flushParagraph();
+  flushList();
+  flushBlockquote();
+
+  return html;
+}
+
+function renderSlideContentHTML(contentBlocks: ContentBlock[]): string {
+  let html = '';
+
+  for (const block of contentBlocks) {
+    if (block.type === 'unordered_list') {
+      html += '<ul class="list-disc pl-6 my-2">';
+      for (const item of block.items) {
+        html += `<li>${renderRuns(item.content)}</li>`;
+      }
+      html += '</ul>';
+    } else if (block.type === 'ordered_list') {
+      html += '<ol class="list-decimal pl-6 my-2">';
+      for (const item of block.items) {
+        html += `<li>${renderRuns(item.content)}</li>`;
+      }
+      html += '</ol>';
+    } else if (block.type === 'blockquote') {
+      html += '<blockquote class="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-3">';
+      for (const paragraph of block.content) {
+        html += `<p>${renderRuns(paragraph.content)}</p>`;
+      }
+      html += '</blockquote>';
+    } else if (block.type === 'paragraph') {
+      const rawText = runsToText(block.content).trim();
+      const headingMatch = /^(#{1,3})\s+(.+)$/.exec(rawText);
+      if (headingMatch) {
+        const level = headingMatch[1].length;
+        const size = level === 1 ? 'text-2xl' : level === 2 ? 'text-xl' : 'text-lg';
+        html += `<h${level} class="${size} font-bold mt-3 mb-2">${renderInlineMarkdown(
+          headingMatch[2]
+        )}</h${level}>`;
+      } else {
+        html += `<p class="my-2">${renderRuns(block.content)}</p>`;
+      }
+    }
+  }
+
+  return html;
+}
+
+function renderRuns(runs: TextRun[]): string {
+  return runs
+    .map((run) => {
+      if (typeof run === 'string') {
+        return escapeHTML(run);
+      }
+      if (isLinkRun(run)) {
+        const text = escapeHTML(run.text || '');
+        const url = escapeHTML(run.url || '#');
+        return `<a class="underline text-blue-600" href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+      }
+      if (isImageRun(run)) {
+        const alt = escapeHTML(run.alt || '');
+        const url = escapeHTML(run.url || '');
+        return `<img class="inline-block max-h-40" src="${url}" alt="${alt}" />`;
+      }
+      let content = escapeHTML(run.text || '');
+      if (run.bold) content = `<strong>${content}</strong>`;
+      if (run.italic) content = `<em>${content}</em>`;
+      if (run.underline) content = `<span class="underline">${content}</span>`;
+      if (run.strike) content = `<span class="line-through">${content}</span>`;
+      return content;
+    })
+    .join('');
+}
+
+function runsToText(runs: TextRun[]): string {
+  return runs
+    .map((run) => {
+      if (typeof run === 'string') return run;
+      if (isLinkRun(run)) return run.text || '';
+      if (isImageRun(run)) return run.alt || '';
+      return run.text || '';
+    })
+    .join('');
+}
+
+function isLinkRun(run: TextRun): run is OSFLink {
+  return typeof run === 'object' && run !== null && 'type' in run && run.type === 'link';
+}
+
+function isImageRun(run: TextRun): run is OSFImage {
+  return typeof run === 'object' && run !== null && 'type' in run && run.type === 'image';
+}
+
+function renderInlineMarkdown(text: string): string {
+  let html = escapeHTML(text);
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/`(.+?)`/g, '<code class="bg-gray-100 px-1 rounded">$1</code>');
+  return html;
+}
+
+function escapeHTML(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
