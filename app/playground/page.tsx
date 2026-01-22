@@ -337,19 +337,72 @@ function generatePreviewHTML(doc: any): string {
 }
 
 function convertMarkdownToHTML(text: string): string {
-  let html = text;
-  
-  html = html.replace(/^### (.+)$/gm, '<h3 class="text-xl font-bold mt-4 mb-2">$1</h3>');
-  html = html.replace(/^## (.+)$/gm, '<h2 class="text-2xl font-bold mt-6 mb-3">$1</h2>');
-  html = html.replace(/^# (.+)$/gm, '<h1 class="text-3xl font-bold mt-8 mb-4">$1</h1>');
-  
+  const lines = text.split(/\r?\n/);
+  let html = '';
+  let paragraph: string[] = [];
+  let listItems: string[] = [];
+
+  const flushParagraph = () => {
+    if (paragraph.length > 0) {
+      html += `<p class="my-2">${renderInlineMarkdown(paragraph.join(' '))}</p>`;
+      paragraph = [];
+    }
+  };
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      html += `<ul class="list-disc pl-6 my-2">${listItems
+        .map((item) => `<li>${renderInlineMarkdown(item)}</li>`)
+        .join('')}</ul>`;
+      listItems = [];
+    }
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+
+    const headingMatch = /^(#{1,3})\s+(.+)$/.exec(line);
+    if (headingMatch) {
+      flushParagraph();
+      flushList();
+      const level = headingMatch[1].length;
+      const size =
+        level === 1 ? 'text-3xl' : level === 2 ? 'text-2xl' : 'text-xl';
+      html += `<h${level} class="${size} font-bold mt-6 mb-3">${renderInlineMarkdown(
+        headingMatch[2]
+      )}</h${level}>`;
+      continue;
+    }
+
+    const listMatch = /^[-*]\s+(.+)$/.exec(line);
+    if (listMatch) {
+      flushParagraph();
+      listItems.push(listMatch[1]);
+      continue;
+    }
+
+    if (listItems.length > 0) {
+      flushList();
+    }
+    paragraph.push(line);
+  }
+
+  flushParagraph();
+  flushList();
+
+  return html;
+}
+
+function renderInlineMarkdown(text: string): string {
+  let html = escapeHTML(text);
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
   html = html.replace(/`(.+?)`/g, '<code class="bg-gray-800 px-1 rounded">$1</code>');
-  
-  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-  html = html.replace(/(<li>[\s\S]*<\/li>)/, '<ul class="list-disc pl-6 my-2">$1</ul>');
-  
   return html;
 }
 
