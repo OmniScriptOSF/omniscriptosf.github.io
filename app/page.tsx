@@ -112,12 +112,7 @@ export default function Home() {
           </p>
 
           <div className="flex items-center justify-center gap-4 mb-16">
-            <a
-              href="https://github.com/OmniScriptOSF/omniscript-core"
-              className="btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="/docs/getting-started/quick-reference" className="btn-primary">
               Get Started
             </a>
             <a href="#features" className="btn-secondary">

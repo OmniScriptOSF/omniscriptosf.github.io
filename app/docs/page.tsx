@@ -38,25 +38,36 @@ export default function DocsPage() {
           <DocCard
             icon={<Book size={32} weight="duotone" />}
             title="User Guide"
-            description="Complete reference for all OSF features"
+            description="Complete guide to OSF blocks and formatting"
             links={[
-              { text: '@meta Blocks', href: '/docs/guide/meta-blocks' },
-              { text: '@doc Blocks', href: '/docs/guide/doc-blocks' },
-              { text: '@slide Blocks', href: '/docs/guide/slide-blocks' },
-              { text: '@sheet Blocks', href: '/docs/guide/sheet-blocks' },
-              { text: 'Themes', href: '/docs/guide/themes' }
+              { text: 'User Guide', href: '/docs/user-guide' },
+              { text: 'Block Types', href: '/docs/user-guide' },
+              { text: 'Formatting & Markdown', href: '/docs/user-guide' },
+              { text: 'Themes', href: '/docs/user-guide' }
             ]}
           />
 
-          {/* v1.0 Features */}
+          {/* API Reference */}
+          <DocCard
+            icon={<Wrench size={32} weight="duotone" />}
+            title="API Reference"
+            description="Programmatic usage of OSF packages"
+            links={[
+              { text: 'Complete API Reference', href: '/docs/api-reference' },
+              { text: 'Parser & Converters', href: '/docs/api-reference' },
+              { text: 'CLI Commands', href: '/docs/api-reference' }
+            ]}
+          />
+
+          {/* v1.3 Features */}
           <DocCard
             icon={<Sparkle size={32} weight="duotone" />}
-            title="v1.0 Features"
-            description="Advanced blocks (charts, diagrams, code)"
+            title="v1.3 Features (Latest)"
+            description="Export parity and preview alignment"
             links={[
-              { text: '@chart Blocks', href: '/docs/v1-features/chart-blocks' },
-              { text: '@diagram Blocks', href: '/docs/v1-features/diagram-blocks' },
-              { text: '@code Blocks', href: '/docs/v1-features/code-blocks' }
+              { text: 'v1.3 Release Notes', href: '/docs/releases/v1-3' },
+              { text: '@table Parity', href: '/docs/releases/v1-3' },
+              { text: 'Blockquote Styling', href: '/docs/releases/v1-3' }
             ]}
           />
 
@@ -86,27 +97,15 @@ export default function DocsPage() {
             ]}
           />
 
-          {/* User Guide */}
+          {/* v1.0 Features */}
           <DocCard
-            icon={<Book size={32} weight="duotone" />}
-            title="User Guide"
-            description="Complete guide to all OSF block types"
+            icon={<Sparkle size={32} weight="duotone" />}
+            title="v1.0 Features"
+            description="Charts, diagrams, and code blocks"
             links={[
-              { text: 'All Block Types', href: '/docs/user-guide' },
-              { text: 'Best Practices', href: '/docs/user-guide#best-practices' },
-              { text: 'Common Patterns', href: '/docs/user-guide' }
-            ]}
-          />
-
-          {/* API Reference */}
-          <DocCard
-            icon={<Wrench size={32} weight="duotone" />}
-            title="API Reference"
-            description="Programmatic usage of OSF packages"
-            links={[
-              { text: 'Complete API Reference', href: '/docs/api-reference' },
-              { text: 'Parser & Converters', href: '/docs/api-reference' },
-              { text: 'CLI Commands', href: '/docs/api-reference' }
+              { text: '@chart Blocks', href: '/docs/v1-features/chart-blocks' },
+              { text: '@diagram Blocks', href: '/docs/v1-features/diagram-blocks' },
+              { text: '@code Blocks', href: '/docs/v1-features/code-blocks' }
             ]}
           />
 
