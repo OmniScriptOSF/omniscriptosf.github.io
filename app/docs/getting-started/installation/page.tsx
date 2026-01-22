@@ -62,25 +62,19 @@ export default function InstallationPage() {
           </div>
         </section>
 
-        {/* VSCode Extension */}
+        {/* Editor Support */}
         <section className="mb-12">
-          <h2 className="text-3xl font-bold mb-4">3. Install VSCode Extension (Recommended)</h2>
-          <p className="mb-4">For the best development experience, install the official VSCode extension.</p>
-
-          <h3 className="text-xl font-bold mb-2">Option A: From Marketplace</h3>
-          <ol className="list-decimal pl-6 mb-4 space-y-2">
-            <li>Open Visual Studio Code</li>
-            <li>Press <code className="bg-gray-800 px-2 py-1 rounded">Ctrl+Shift+X</code> (Windows/Linux) or <code className="bg-gray-800 px-2 py-1 rounded">Cmd+Shift+X</code> (Mac)</li>
-            <li>Search for &quot;OmniScript Format&quot;</li>
-            <li>Click Install</li>
-          </ol>
-
-          <h3 className="text-xl font-bold mb-2">Option B: Command Line</h3>
-          <div className="bg-gray-900 p-4 rounded border-2 border-gray-700">
-            <pre className="text-green-400 font-mono">
-              <code>code --install-extension OmniScriptOSF.omniscript-vscode</code>
-            </pre>
-          </div>
+          <h2 className="text-3xl font-bold mb-4">3. Editor Support (Roadmap)</h2>
+          <p className="mb-4">
+            Dedicated editor tooling (syntax highlighting, IntelliSense, diagnostics) is planned but not
+            released yet. Track progress on the roadmap.
+          </p>
+          <a
+            href="https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/roadmap.md"
+            className="inline-block border-2 border-white px-4 py-2 hover:bg-white hover:text-black transition-colors"
+          >
+            View Roadmap →
+          </a>
         </section>
 
         {/* Library Installation */}
@@ -140,8 +134,8 @@ export default function InstallationPage() {
               <p className="text-sm text-gray-400">Windows, macOS, Linux</p>
             </div>
             <div className="border-2 border-gray-700 p-4">
-              <h3 className="font-bold mb-2">VSCode</h3>
-              <p className="text-sm text-gray-400">Version 1.80 or higher</p>
+              <h3 className="font-bold mb-2">Editor</h3>
+              <p className="text-sm text-gray-400">Any text editor (VS Code support planned)</p>
             </div>
           </div>
         </section>

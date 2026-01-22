@@ -146,7 +146,7 @@ export default function DocsPage() {
               { text: 'Specification v1.1 (Base)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/v1.1/osf-spec.md' },
               { text: 'v1.2 Features Guide', href: '/docs/v1-2-features' },
               { text: 'GitHub Repository', href: 'https://github.com/OmniScriptOSF/omniscript-core' },
-              { text: 'VSCode Extension', href: 'https://marketplace.visualstudio.com/items?itemName=OmniScriptOSF.omniscript-vscode' }
+              { text: 'Editor Support (Roadmap)', href: 'https://github.com/OmniScriptOSF/omniscript-core/blob/main/spec/roadmap.md' }
             ]}
           />
         </div>

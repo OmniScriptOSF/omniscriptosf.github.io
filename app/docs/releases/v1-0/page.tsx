@@ -216,7 +216,6 @@ export default function V1ReleaseNotesPage() {
                   <li>📦 omniscript-parser@1.0.0</li>
                   <li>📦 omniscript-converters@1.0.0</li>
                   <li>📦 omniscript-cli@1.0.0</li>
-                  <li>📦 omniscript-vscode@0.1.0</li>
                   <li>📦 omniscript-examples@1.0.0</li>
                 </ul>
               </div>
